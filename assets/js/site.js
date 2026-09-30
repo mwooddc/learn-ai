@@ -73,7 +73,7 @@
   ];
 
   function currentTheme() {
-    try { return localStorage.getItem(THEME_KEY) || "auto"; } catch (e) { return "auto"; }
+    try { return localStorage.getItem(THEME_KEY) || "slate"; } catch (e) { return "slate"; }
   }
   function applyTheme(id) {
     if (id === "auto") delete document.documentElement.dataset.theme;
