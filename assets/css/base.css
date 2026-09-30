@@ -105,6 +105,66 @@
   color-scheme: dark;
 }
 
+/* ---------- Coral (dark navy + coral) ---------- */
+:root[data-theme="coral"] {
+  --paper: #1a1a2e;
+  --surface: #16213e;
+  --surface-2: #0f3460;
+  --ink: #f9f9f9;
+  --ink-2: #c9cfe3;
+  --ink-3: #939cbb;
+  --line: #2b3a60;
+  --accent: #e94560;
+  --accent-ink: #1a1a2e;
+  --accent-soft: #3a1f3a;
+  --good: #4fd1a5;
+  --good-soft: #123a3c;
+  --bad: #f5b942;   /* amber, so mistakes don't blur into the coral accent */
+  --bad-soft: #3a2f1a;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 4px 16px rgba(0, 0, 0, .3);
+  color-scheme: dark;
+}
+
+/* ---------- Slate (dark slate + teal) ---------- */
+:root[data-theme="slate"] {
+  --paper: #2c3e50;
+  --surface: #34495e;
+  --surface-2: #3f5870;
+  --ink: #ecf0f1;
+  --ink-2: #c9d2d9;
+  --ink-3: #a9b6c1;
+  --line: #4b6279;
+  --accent: #1abc9c;
+  --accent-ink: #0e2a24;
+  --accent-soft: #24544f;
+  --good: #8ee6b0;
+  --good-soft: #2d5548;
+  --bad: #ff8f80;
+  --bad-soft: #4c3a48;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .25), 0 4px 16px rgba(0, 0, 0, .2);
+  color-scheme: dark;
+}
+
+/* ---------- Violet (light + purple) ---------- */
+:root[data-theme="violet"] {
+  --paper: #f5f5f5;
+  --surface: #ffffff;
+  --surface-2: #eee6f5;
+  --ink: #221133;
+  --ink-2: #5a2475;
+  --ink-3: #7d6a8f;
+  --line: #e0d4ea;
+  --accent: #8a2be2;
+  --accent-ink: #ffffff;
+  --accent-soft: #f4e4f4;
+  --good: #1d7f63;
+  --good-soft: #dcefe7;
+  --bad: #c43d27;
+  --bad-soft: #f9e2de;
+  --shadow: 0 1px 2px rgba(75, 0, 130, .06), 0 4px 16px rgba(75, 0, 130, .08);
+  color-scheme: light;
+}
+
 :root {
   --radius: 14px;
   --font-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;

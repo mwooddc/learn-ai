@@ -65,7 +65,10 @@
     { id: "auto", name: "Match my device", bg: "linear-gradient(90deg,#f6f3ec 50%,#14130f 50%)", accent: "#2b59e0" },
     { id: "paper", name: "Paper", bg: "#f6f3ec", accent: "#2b59e0" },
     { id: "snow", name: "Snow", bg: "#ffffff", accent: "#2458d6" },
+    { id: "violet", name: "Violet", bg: "#f5f5f5", accent: "#8a2be2" },
     { id: "night", name: "Night", bg: "#14130f", accent: "#7c9cff" },
+    { id: "coral", name: "Coral", bg: "#1a1a2e", accent: "#e94560" },
+    { id: "slate", name: "Slate", bg: "#2c3e50", accent: "#1abc9c" },
     { id: "contrast", name: "High contrast", bg: "#000000", accent: "#ffd400" },
   ];
 
