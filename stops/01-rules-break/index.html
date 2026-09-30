@@ -56,8 +56,11 @@
 
       <div class="rule-kinds">
         <div><span class="tag block">Block</span> the message if it contains a word.</div>
-        <div><span class="tag allow">Allow</span> the message if it contains a word. <em>Allow beats block.</em></div>
+        <div><span class="tag allow">Allow</span> the message if it contains a word, <strong>even if a Block rule matches it too</strong>. For example, with Block "free" and Allow "free on", the message "are you free on Saturday?" gets through.</div>
       </div>
+      <p class="how-match">A rule looks for those exact letters <strong>anywhere</strong> in the message, ignoring capitals. So "claim" also catches "claimed", and "gem" catches "GEMS".</p>
+
+      <p class="goal"><strong>Your goal:</strong> stop all the scams, and block <strong>none</strong> of the friends' messages.</p>
 
       <div class="builder card">
         <form id="rule-form" class="rule-form" autocomplete="off">
@@ -91,6 +94,7 @@
       <p>Here's how your filter did on the <strong>first try</strong> each morning, before you'd seen that day's messages, compared with after you fixed it.</p>
 
       <div class="card scoreboard" id="scoreboard" aria-live="polite"></div>
+      <p class="small-note">A <strong>mistake</strong> is either a scam that got through or a friend's message that got blocked.</p>
 
       <p>Every rule you wrote came from looking at <em>yesterday's</em> messages. But the scammers only need to find one gap, and they change their words the moment a filter catches them. Meanwhile, ordinary messages keep tripping your rules by accident.</p>
 
@@ -136,6 +140,7 @@
         <div class="features" id="features" role="group" aria-label="Cat features"></div>
       </div>
 
+      <p class="cat-key">Each card lists the features you can see in that picture. A <s>crossed-out</s> feature can't be seen. With nothing chosen, your rule calls <em>every</em> animal a cat.</p>
       <p class="cat-score" id="cat-score" aria-live="polite"></p>
       <div class="animals" id="animals"></div>
 
@@ -163,7 +168,7 @@
         </div>
       </div>
 
-      <p>That's it. <strong>256 numbers.</strong> Small numbers are dark and big numbers are light. There's no "ear" in there, just numbers next to other numbers. Try writing a rule for "pointy ear" using only those numbers. And a real photo has millions of them.</p>
+      <p>That's it. <strong>256 numbers</strong>, each from 0 (black) to 255 (white). There's no "ear" in there, just numbers next to other numbers. Try writing a rule for "pointy ear" using only those numbers. And a real photo has millions of them.</p>
 
       <div class="callout">
         <p>So in the end, people gave up trying to write the rules. They asked a different question: <strong>what if the computer could find the rules itself, just by looking at lots of examples?</strong> That idea is called <strong>machine learning</strong>, and it's what the rest of this journey is about.</p>

@@ -1,6 +1,10 @@
 /* Stop 2 · Everything is numbers */
 
 .challenge { margin-top: 20px; }
+.small-note { font-size: .92rem; color: var(--ink-2); }
+.brush-help { font-size: .88rem; color: var(--ink-2); margin: -6px 0 14px; }
+.close-breakdown { font-size: .8rem; color: var(--ink-2); margin: 6px 0 0; }
+.close-help { font-size: .85rem; color: var(--ink-2); margin: 8px 0 0; }
 .mono { font-family: var(--font-mono); }
 
 /* ---------- Part 1: paint ---------- */
@@ -83,7 +87,12 @@ strong.b { color: #3e82f7; }
 
 /* ---------- Part 4: sound ---------- */
 .wave { margin: 20px 0; }
+.wave-plot { display: grid; grid-template-columns: auto 1fr; gap: 8px; align-items: stretch; }
+.wave-axis { display: flex; flex-direction: column; justify-content: space-between; font-size: .72rem; color: var(--ink-2); line-height: 1.15; padding: 2px 0; text-align: right; }
+.wave-axis b { display: block; font-family: var(--font-mono); color: var(--ink); }
+.wave-time { text-align: right; font-size: .8rem; color: var(--ink-2); margin: 4px 0 0; }
 #wave-canvas { width: 100%; height: auto; aspect-ratio: 640 / 220; display: block; border-radius: 8px; background: var(--surface-2); touch-action: none; cursor: ns-resize; }
+@media (max-width: 560px) { #wave-canvas { aspect-ratio: 4 / 3; } }
 .wave-nums { font-size: .72rem; color: var(--ink-2); line-height: 1.5; margin: 10px 0 14px; overflow-wrap: anywhere; }
 .wave-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .presets { display: flex; flex-wrap: wrap; gap: 6px; }

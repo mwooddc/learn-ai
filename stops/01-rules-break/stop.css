@@ -43,7 +43,12 @@ mark.hit-allow { background: none; color: inherit; box-shadow: inset 0 -.5em 0 c
 .hook-result .big { font-family: var(--font-head); font-size: 1.6rem; font-weight: 700; margin-bottom: .3em; }
 
 /* ---------- rule builder ---------- */
-.rule-kinds { display: grid; gap: 8px; margin: 0 0 20px; }
+.rule-kinds { display: grid; gap: 8px; margin: 0 0 12px; }
+.how-match { font-size: .95rem; color: var(--ink-2); margin: 0 0 16px; }
+.goal { border-left: 4px solid var(--good); background: var(--good-soft); padding: 10px 14px; border-radius: 0 10px 10px 0; margin: 0 0 20px; }
+.small-note { font-size: .92rem; color: var(--ink-2); margin: -16px 0 24px; }
+.cat-key { font-size: .92rem; color: var(--ink-2); margin: 0 0 6px; }
+.cat-key s { color: var(--ink-3); }
 .tag {
   display: inline-block; font-family: var(--font-mono); font-size: .75rem; font-weight: 600;
   text-transform: uppercase; letter-spacing: .05em;

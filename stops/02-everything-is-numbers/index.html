@@ -51,6 +51,7 @@
           <span class="brush-swatch" id="brush-swatch"></span>
           <output class="brush-value mono" id="brush-value">0</output>
         </div>
+        <p class="brush-help">Pick a shade or drag the slider. The brush paints the number shown, from 0 (black) to 255 (white).</p>
 
         <div class="paint-grids">
           <figure>
@@ -101,6 +102,7 @@
         </div>
       </div>
 
+      <p class="small-note">On the smallest grids you can read each square's number. It's the <strong>average brightness</strong> of the part of the picture that square covers, which is why you see numbers like 187 rather than just black or white.</p>
       <p>What's the <strong>smallest</strong> grid where you can still tell it's a cat? Your brain is incredibly good at this. Remember that, because an AI has to work out "cat" from nothing but these numbers.</p>
       <div class="callout">
         <p>A typical phone photo is about <strong>4,000 × 3,000 pixels</strong>. That's <strong>12 million</strong> pixels, and it's in colour, which makes it bigger still. Keep going to see why.</p>
@@ -128,6 +130,8 @@
             <div class="close-track"><div class="close-fill" id="close-fill"></div></div>
             <span class="mono" id="close-text"></span>
           </div>
+          <p class="close-breakdown mono" id="close-breakdown"></p>
+          <p class="close-help"><strong>"Off by"</strong> is how far each of your three numbers is from the target's, added together. 0 is a perfect match. 60 or less counts as a match.</p>
         </div>
 
         <div class="sliders">
@@ -159,10 +163,18 @@
       <p class="eyebrow">Part 4 · Sound</p>
       <h2>Sound is numbers over time</h2>
       <p>Sound is air wobbling back and forth. A microphone measures how far the air has been pushed, over and over again, and writes down a number each time. Played back quickly enough, the numbers become sound again.</p>
-      <p>Below is one wobble, made of 32 numbers from −100 to 100. <strong>Drag on it to change its shape</strong>, then press play. The computer repeats your wobble hundreds of times a second.</p>
+      <p>Below is one wobble, made of 32 numbers. Each number says where the air is at one instant: <strong>+100</strong> is pushed out as far as it goes, <strong>0</strong> is still, and <strong>−100</strong> is pulled back as far as it goes. Reading left to right is time passing. <strong>Drag on it to change its shape</strong>, then press play. The computer repeats your wobble hundreds of times a second.</p>
 
       <div class="card wave">
-        <canvas id="wave-canvas" width="640" height="220" aria-label="Wave editor: drag to change the 32 numbers that make one wobble" role="img"></canvas>
+        <div class="wave-plot">
+          <div class="wave-axis" aria-hidden="true">
+            <span><b>+100</b> pushed out</span>
+            <span><b>0</b> still</span>
+            <span><b>−100</b> pulled back</span>
+          </div>
+          <canvas id="wave-canvas" width="640" height="220" aria-label="Wave editor: drag to change the 32 numbers that make one wobble. Up is air pushed out, down is air pulled back, left to right is time." role="img"></canvas>
+        </div>
+        <p class="wave-time" aria-hidden="true">time →</p>
         <p class="wave-nums mono" id="wave-nums"></p>
         <div class="wave-controls">
           <button class="btn primary" id="play">▶ Play</button>
@@ -206,6 +218,7 @@
           <input id="word-b" type="text" value="car" maxlength="16" spellcheck="false" autocomplete="off">
           <div class="codes" id="codes-b" aria-live="polite"></div>
         </div>
+        <p class="small-note">␣ stands for a space. Spaces have a number too: 32.</p>
         <p class="suggest">Try: <button class="chip" data-word="kitten">kitten</button><button class="chip" data-word="Cat">Cat</button><button class="chip" data-word="dog">dog</button><button class="chip" data-word="😂">😂</button></p>
       </div>
 

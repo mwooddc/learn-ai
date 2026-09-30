@@ -190,12 +190,15 @@
     $("#out-r").textContent = m[0]; $("#out-g").textContent = m[1]; $("#out-b").textContent = m[2];
     $("#mix-swatch").style.backgroundColor = `rgb(${m})`;
     const T = TARGETS[t].rgb;
-    const d = Math.round(Math.hypot(m[0] - T[0], m[1] - T[1], m[2] - T[2]));
+    // "Off by" = the three gaps added together, so learners can check it themselves.
+    const gaps = m.map((v, i) => Math.abs(v - T[i]));
+    const d = gaps[0] + gaps[1] + gaps[2];
     const fill = $("#close-fill");
-    fill.style.width = Math.max(0, 100 - d / 3) + "%";
-    const hit = d <= 40;
+    fill.style.width = Math.max(0, 100 - d / 4) + "%";
+    const hit = d <= 60;
     fill.classList.toggle("matched", hit);
-    $("#close-text").textContent = hit ? "Match! ✓" : `Off by ${d}`;
+    $("#close-text").textContent = hit ? `Off by ${d}: match! ✓` : `Off by ${d}`;
+    $("#close-breakdown").textContent = `red ${gaps[0]} + green ${gaps[1]} + blue ${gaps[2]} = ${d}`;
     if (hit && !matched) {
       matched = true;
       const last = t === TARGETS.length - 1;
@@ -226,6 +229,9 @@
   const wx = wc.getContext("2d");
 
   function drawWave() {
+    // Match the drawing's proportions to the on-screen size (taller on phones).
+    const box = wc.getBoundingClientRect();
+    if (box.width) wc.height = Math.round((wc.width * box.height) / box.width);
     const W = wc.width, H = wc.height, mid = H / 2, colW = W / N;
     wx.clearRect(0, 0, W, H);
     wx.strokeStyle = css("--ink-3"); wx.lineWidth = 1; wx.setLineDash([4, 4]);
@@ -314,6 +320,8 @@
   });
 
   drawWave();
+  window.addEventListener("resize", drawWave);
+  $("#s4").addEventListener("revealed", drawWave);
   // re-colour the canvas when the theme changes
   new MutationObserver(drawWave).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 

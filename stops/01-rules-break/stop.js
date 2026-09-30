@@ -70,7 +70,7 @@
   const DAYS = [
     {
       name: "Monday",
-      intro: "Your first shift. Add rules until your filter handles these messages well.",
+      intro: "Your first shift. Add some rules above, then press Run. Keep improving your rules until they handle these messages well.",
       msgs: [
         { t: "FREE GEMS!!! click here to claim", scam: true },
         { t: "Win a free legendary skin, just enter your password", scam: true },
@@ -87,7 +87,7 @@
     },
     {
       name: "Tuesday",
-      intro: "Overnight, the scammers noticed their messages were being blocked. Your rules haven't changed. Run them and see.",
+      intro: "Overnight, the scammers noticed their messages were being blocked. Run your rules <strong>before</strong> changing anything: this first try gets recorded. Then fix what went wrong.",
       msgs: [
         { t: "FR33 G3MS click fast", scam: true },
         { t: "g.e.m.s giveaway, message me your login", scam: true },
@@ -104,7 +104,7 @@
     },
     {
       name: "Wednesday",
-      intro: "Word has spread. The scammers are getting sneaky, and your friends keep chatting as normal.",
+      intro: "Word has spread. The scammers are getting sneaky, and your friends keep chatting as normal. Again, run your rules <strong>before</strong> changing anything: this first try gets recorded.",
       msgs: [
         { t: "omg is this you in this video?? vid-clips.site/you", scam: true },
         { t: "I'm quitting the game, giving my account away. send your login so I can swap it over", scam: true },
