@@ -56,4 +56,76 @@
   });
 
   document.addEventListener("DOMContentLoaded", updateProgressBar);
+
+  /* ---------- themes ---------- */
+  // Each page's <head> applies the saved theme before first paint (no flash);
+  // this builds the picker in the top bar.
+  const THEME_KEY = "learnai.theme";
+  const THEMES = [
+    { id: "auto", name: "Match my device", bg: "linear-gradient(90deg,#f6f3ec 50%,#14130f 50%)", accent: "#2b59e0" },
+    { id: "paper", name: "Paper", bg: "#f6f3ec", accent: "#2b59e0" },
+    { id: "snow", name: "Snow", bg: "#ffffff", accent: "#2458d6" },
+    { id: "night", name: "Night", bg: "#14130f", accent: "#7c9cff" },
+    { id: "contrast", name: "High contrast", bg: "#000000", accent: "#ffd400" },
+  ];
+
+  function currentTheme() {
+    try { return localStorage.getItem(THEME_KEY) || "auto"; } catch (e) { return "auto"; }
+  }
+  function applyTheme(id) {
+    if (id === "auto") delete document.documentElement.dataset.theme;
+    else document.documentElement.dataset.theme = id;
+    try { localStorage.setItem(THEME_KEY, id); } catch (e) { /* storage unavailable */ }
+  }
+
+  function buildPicker() {
+    const bar = document.querySelector(".bar-inner");
+    if (!bar) return;
+    const wrap = document.createElement("div");
+    wrap.className = "theme-picker";
+    wrap.innerHTML = `
+      <button class="theme-btn" aria-haspopup="true" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg>
+        <span class="label">Theme</span></button>
+      <div class="theme-menu" role="radiogroup" aria-label="Colour theme" hidden>
+        ${THEMES.map((t) => `<button class="theme-option" role="radio" data-theme-id="${t.id}">
+          <span class="swatch" style="background:linear-gradient(135deg,transparent 55%,${t.accent} 55%),${t.bg}"></span>${t.name}</button>`).join("")}
+      </div>`;
+    bar.appendChild(wrap);
+
+    const btn = wrap.querySelector(".theme-btn");
+    const menu = wrap.querySelector(".theme-menu");
+    const sync = () => menu.querySelectorAll(".theme-option").forEach((o) =>
+      o.setAttribute("aria-checked", o.dataset.themeId === currentTheme()));
+    const open = (on) => {
+      menu.hidden = !on;
+      btn.setAttribute("aria-expanded", on);
+      if (on) { sync(); menu.querySelector('[aria-checked="true"]').focus(); }
+    };
+
+    btn.addEventListener("click", () => open(menu.hidden));
+    menu.addEventListener("click", (e) => {
+      const o = e.target.closest("[data-theme-id]");
+      if (!o) return;
+      applyTheme(o.dataset.themeId);
+      sync();
+      open(false);
+      btn.focus();
+    });
+    document.addEventListener("click", (e) => { if (!wrap.contains(e.target)) open(false); });
+    wrap.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") { open(false); btn.focus(); }
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        const opts = [...menu.querySelectorAll(".theme-option")];
+        const i = opts.indexOf(document.activeElement);
+        if (i === -1) return;
+        e.preventDefault();
+        opts[(i + (e.key === "ArrowDown" ? 1 : opts.length - 1)) % opts.length].focus();
+      }
+    });
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", buildPicker);
+  else buildPicker();
 })();

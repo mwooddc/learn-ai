@@ -1,62 +1,39 @@
 /* Learn AI — shared design system
    Every stop uses these tokens so the visual language stays consistent
-   across the journey (a neuron on stop 3 looks the same inside stop 6). */
+   across the journey (a neuron on stop 3 looks the same inside stop 6).
 
-:root {
+   Themes: set by site.js as <html data-theme="...">.
+   No data-theme = "Match my device": Paper in light mode, Night in dark mode. */
+
+/* ---------- Paper (default light) ---------- */
+:root, :root[data-theme="paper"] {
   --paper: #f6f3ec;
   --surface: #fffdf8;
   --surface-2: #efeadf;
   --ink: #1c1a17;
   --ink-2: #57524a;
-  --ink-3: #8a8378;
+  --ink-3: #767065;
   --line: #ddd5c6;
   --accent: #2b59e0;
   --accent-ink: #ffffff;
   --accent-soft: #e3eafc;
   --good: #1d7f63;
   --good-soft: #dcefe7;
-  --bad: #c9412b;
+  --bad: #c43d27;
   --bad-soft: #f8e1dc;
-  --warn: #a86f08;
-  --warn-soft: #f6ead0;
   --shadow: 0 1px 2px rgba(40, 30, 10, .06), 0 4px 16px rgba(40, 30, 10, .06);
-  --radius: 14px;
-  --font-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-head: "Space Grotesk", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
   color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #14130f;
-    --surface: #1d1c17;
-    --surface-2: #26241e;
-    --ink: #f1ede4;
-    --ink-2: #bdb6a8;
-    --ink-3: #857e71;
-    --line: #34312a;
-    --accent: #7c9cff;
-    --accent-ink: #0f1320;
-    --accent-soft: #1f2a4a;
-    --good: #4cc39c;
-    --good-soft: #15342a;
-    --bad: #f07a63;
-    --bad-soft: #3c1f19;
-    --warn: #e6b04a;
-    --warn-soft: #3a2d12;
-    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 16px rgba(0, 0, 0, .25);
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
+/* ---------- Night (dark) ---------- */
+:root[data-theme="night"] {
   --paper: #14130f;
   --surface: #1d1c17;
-  --surface-2: #26241e;
+  --surface-2: #2a2821;
   --ink: #f1ede4;
   --ink-2: #bdb6a8;
-  --ink-3: #857e71;
-  --line: #34312a;
+  --ink-3: #958d7f;
+  --line: #38352d;
   --accent: #7c9cff;
   --accent-ink: #0f1320;
   --accent-soft: #1f2a4a;
@@ -64,10 +41,75 @@
   --good-soft: #15342a;
   --bad: #f07a63;
   --bad-soft: #3c1f19;
-  --warn: #e6b04a;
-  --warn-soft: #3a2d12;
   --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 16px rgba(0, 0, 0, .25);
   color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --paper: #14130f;
+    --surface: #1d1c17;
+    --surface-2: #2a2821;
+    --ink: #f1ede4;
+    --ink-2: #bdb6a8;
+    --ink-3: #958d7f;
+    --line: #38352d;
+    --accent: #7c9cff;
+    --accent-ink: #0f1320;
+    --accent-soft: #1f2a4a;
+    --good: #4cc39c;
+    --good-soft: #15342a;
+    --bad: #f07a63;
+    --bad-soft: #3c1f19;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 16px rgba(0, 0, 0, .25);
+    color-scheme: dark;
+  }
+}
+
+/* ---------- Snow (clean white) ---------- */
+:root[data-theme="snow"] {
+  --paper: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f0f2f5;
+  --ink: #111827;
+  --ink-2: #4b5563;
+  --ink-3: #6b7280;
+  --line: #e1e4ea;
+  --accent: #2458d6;
+  --accent-ink: #ffffff;
+  --accent-soft: #e7eefc;
+  --good: #137a5a;
+  --good-soft: #def3ea;
+  --bad: #c0392b;
+  --bad-soft: #fbe6e3;
+  --shadow: 0 1px 2px rgba(15, 23, 42, .06), 0 4px 16px rgba(15, 23, 42, .07);
+  color-scheme: light;
+}
+
+/* ---------- High contrast ---------- */
+:root[data-theme="contrast"] {
+  --paper: #000000;
+  --surface: #0b0b0b;
+  --surface-2: #222222;
+  --ink: #ffffff;
+  --ink-2: #f2f2f2;
+  --ink-3: #d0d0d0;
+  --line: #9a9a9a;
+  --accent: #ffd400;
+  --accent-ink: #000000;
+  --accent-soft: #2e2700;
+  --good: #3dff9a;
+  --good-soft: #00301a;
+  --bad: #ff7070;
+  --bad-soft: #360808;
+  --shadow: none;
+  color-scheme: dark;
+}
+
+:root {
+  --radius: 14px;
+  --font-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-head: "Space Grotesk", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -104,13 +146,44 @@ code, .mono { font-family: var(--font-mono); font-size: .9em; }
   -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
 }
-.bar-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 52px; }
-.brand { font-family: var(--font-head); font-weight: 700; color: var(--ink); text-decoration: none; font-size: 1.05rem; white-space: nowrap; }
+.bar-inner { display: flex; align-items: center; gap: 12px; height: 52px; }
+.brand { font-family: var(--font-head); font-weight: 700; color: var(--ink); text-decoration: none; font-size: 1.05rem; white-space: nowrap; margin-right: auto; }
 .brand span { font-weight: 500; color: var(--ink-3); }
 @media (max-width: 480px) { .brand span { display: none; } }
 .stop-count { font-family: var(--font-mono); font-size: .8rem; color: var(--ink-2); }
 .progress { height: 3px; }
 .progress-fill { height: 100%; width: 0; background: var(--accent); transition: width .6s ease; }
+
+/* ---------- theme picker ---------- */
+.theme-picker { position: relative; }
+.theme-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 700 .85rem var(--font-body); color: var(--ink-2);
+  background: none; border: 1px solid var(--line); border-radius: 999px;
+  padding: 6px 12px; min-height: 36px; cursor: pointer;
+}
+.theme-btn:hover { color: var(--ink); border-color: var(--ink-3); }
+.theme-btn svg { width: 16px; height: 16px; }
+@media (max-width: 400px) { .theme-btn .label { display: none; } }
+.theme-menu {
+  position: absolute; right: 0; top: calc(100% + 8px); z-index: 30;
+  min-width: 220px; padding: 6px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, .18);
+}
+.theme-menu[hidden] { display: none; }
+.theme-option {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  font: 1rem var(--font-body); color: var(--ink); text-align: left;
+  background: none; border: 0; border-radius: 8px; padding: 9px 10px; cursor: pointer;
+}
+.theme-option:hover { background: var(--surface-2); }
+.theme-option[aria-checked="true"] { font-weight: 700; }
+.theme-option[aria-checked="true"]::after { content: "\2713"; margin-left: auto; color: var(--accent); }
+.swatch {
+  width: 22px; height: 22px; border-radius: 50%; flex: none;
+  border: 1px solid rgba(128, 128, 128, .5);
+}
 
 /* ---------- hero ---------- */
 .hero { padding-top: 64px; padding-bottom: 40px; }

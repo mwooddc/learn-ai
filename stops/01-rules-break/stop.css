@@ -172,9 +172,8 @@ mark.hit-allow { background: none; color: inherit; box-shadow: inset 0 -.5em 0 c
 }
 .animal.good { border-top-color: var(--good); }
 .animal.bad { border-top-color: var(--bad); background: var(--bad-soft); }
-.animal-pic { font-size: 2.4rem; line-height: 1; height: 44px; display: flex; align-items: center; }
-.animal-pic.flip { transform: scaleX(-1); justify-content: flex-end; }
-.animal-pic.faded { filter: grayscale(1) contrast(1.2); opacity: .85; }
+.animal-pic { height: 84px; border-radius: 8px; background: var(--surface-2); display: flex; align-items: center; justify-content: center; }
+.animal-pic svg { height: 100%; width: auto; max-width: 100%; }
 .animal-name { font-weight: 700; line-height: 1.25; }
 .animal-truth { font-size: .8rem; color: var(--ink-3); }
 .animal-says { margin-top: auto; font-family: var(--font-mono); font-size: .8rem; font-weight: 600; }

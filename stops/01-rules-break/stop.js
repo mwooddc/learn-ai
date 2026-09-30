@@ -381,15 +381,108 @@
     { id: "legs", label: "Four legs showing", short: "legs" },
     { id: "tail", label: "A tail showing", short: "tail" },
   ];
+  // Hand-drawn so each picture shows exactly what its card describes.
+  const shadow = (cx, rx) => `<ellipse cx="${cx}" cy="76" rx="${rx}" ry="3" fill="#000" opacity=".1"/>`;
+  const svg = (label, body) => `<svg viewBox="0 0 120 80" role="img" aria-label="${label}">${body}</svg>`;
+  const ART = {
+    walking: svg("A tabby cat walking", `${shadow(62, 40)}
+      <path d="M88 46 C104 44 108 26 100 16" fill="none" stroke="#e59a4b" stroke-width="6" stroke-linecap="round"/>
+      <rect x="54" y="52" width="7" height="22" rx="3.5" fill="#c9823c"/><rect x="85" y="52" width="7" height="22" rx="3.5" fill="#c9823c"/>
+      <rect x="44" y="52" width="7" height="22" rx="3.5" fill="#e59a4b"/><rect x="76" y="52" width="7" height="22" rx="3.5" fill="#e59a4b"/>
+      <ellipse cx="66" cy="47" rx="27" ry="13" fill="#e59a4b"/>
+      <path d="M60 36 q2 8 0 14 M70 35 q2 9 0 16 M80 37 q2 8 0 13" stroke="#b8672a" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <polygon points="26,30 27,14 37,25" fill="#e59a4b"/><polygon points="37,24 45,13 48,28" fill="#e59a4b"/>
+      <polygon points="28.5,26 29,19 33.5,24" fill="#f3b6a0"/>
+      <circle cx="36" cy="36" r="13" fill="#e59a4b"/>
+      <path d="M36 24 v5 M41 25 v5" stroke="#b8672a" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="30" cy="34" r="1.9" fill="#1d1b18"/><circle cx="24.5" cy="39" r="1.5" fill="#d9777a"/>
+      <path d="M27 41 L12 39 M27 43 L13 46" stroke="#1d1b18" stroke-width=".9" opacity=".6"/>`),
+
+    fox: svg("A red fox", `${shadow(64, 44)}
+      <path d="M86 44 C104 36 118 46 116 60 C106 58 96 54 86 51 Z" fill="#e2622a"/>
+      <path d="M109 49 C115 51 117 56 116 60 C111 59 107 57 104 55 Z" fill="#fbf3ea"/>
+      <rect x="54" y="52" width="6" height="22" rx="3" fill="#2e211b"/><rect x="85" y="52" width="6" height="22" rx="3" fill="#2e211b"/>
+      <rect x="44" y="52" width="6" height="22" rx="3" fill="#3a2a22"/><rect x="76" y="52" width="6" height="22" rx="3" fill="#3a2a22"/>
+      <ellipse cx="66" cy="47" rx="27" ry="12" fill="#e2622a"/>
+      <ellipse cx="46" cy="50" rx="8" ry="7" fill="#fbf3ea"/>
+      <polygon points="27,30 28,11 39,25" fill="#e2622a"/><polygon points="38,24 47,10 49,29" fill="#e2622a"/>
+      <polygon points="30,26 30.5,17 35,23" fill="#3a2a22"/>
+      <circle cx="38" cy="36" r="12" fill="#e2622a"/>
+      <path d="M29 31 L11 40 L29 46 Z" fill="#e2622a"/><path d="M28 40 L12 40.5 L29 46 Z" fill="#fbf3ea"/>
+      <circle cx="12" cy="40" r="2.2" fill="#1d1b18"/><circle cx="32" cy="34" r="1.9" fill="#1d1b18"/>
+      <path d="M20 43 L9 46 M21 44 L11 49" stroke="#1d1b18" stroke-width=".9" opacity=".6"/>`),
+
+    husky: svg("A husky dog", `${shadow(64, 44)}
+      <path d="M92 42 C108 36 106 18 94 20" fill="none" stroke="#7d8591" stroke-width="8" stroke-linecap="round"/>
+      <rect x="54" y="52" width="8" height="22" rx="4" fill="#b4b9c1"/><rect x="86" y="52" width="8" height="22" rx="4" fill="#b4b9c1"/>
+      <rect x="44" y="52" width="8" height="22" rx="4" fill="#cfd3d9"/><rect x="76" y="52" width="8" height="22" rx="4" fill="#cfd3d9"/>
+      <ellipse cx="68" cy="46" rx="29" ry="14" fill="#7d8591"/>
+      <ellipse cx="66" cy="54" rx="21" ry="5" fill="#eceef0"/>
+      <polygon points="26,27 28,9 38,22" fill="#7d8591"/><polygon points="37,21 47,9 48,26" fill="#7d8591"/>
+      <polygon points="29,23 29.5,15 34,21" fill="#eceef0"/>
+      <circle cx="36" cy="34" r="13" fill="#7d8591"/>
+      <path d="M24 36 C28 30 40 32 45 40 C40 48 28 48 24 42 Z" fill="#eceef0"/>
+      <rect x="10" y="35" width="20" height="11" rx="5.5" fill="#eceef0"/>
+      <path d="M17 46 q3 6 6 0 Z" fill="#e07a86"/>
+      <circle cx="11.5" cy="38.5" r="2.6" fill="#1d1b18"/><circle cx="31" cy="31" r="1.9" fill="#1d1b18"/>
+      <path d="M18 42 L8 44 M19 43 L9 47" stroke="#1d1b18" stroke-width=".8" opacity=".45"/>`),
+
+    curled: svg("A grey cat curled up asleep", `${shadow(62, 46)}
+      <ellipse cx="66" cy="54" rx="38" ry="20" fill="#6b6f7d"/>
+      <path d="M58 40 q4 8 0 16 M72 37 q4 9 0 19 M86 40 q4 8 0 15" stroke="#575a67" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <polygon points="25,45 24,28 35,38" fill="#6b6f7d"/><polygon points="38,37 47,27 49,42" fill="#6b6f7d"/>
+      <polygon points="27,41 26.5,33 31.5,38" fill="#d99a9a"/>
+      <circle cx="38" cy="53" r="15" fill="#6b6f7d"/>
+      <path d="M102 56 C102 76 54 78 30 70" stroke="#4b4e59" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <path d="M28 52 q3 3 6 0 M39 52 q3 3 6 0" stroke="#1d1b18" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <circle cx="30" cy="58" r="1.4" fill="#d9777a"/>
+      <path d="M29 60 L15 58 M29 62 L16 65" stroke="#1d1b18" stroke-width=".9" opacity=".6"/>
+      <text x="86" y="26" font-family="sans-serif" font-weight="700" font-size="13" fill="#8a8378">z</text>
+      <text x="96" y="17" font-family="sans-serif" font-weight="700" font-size="9" fill="#8a8378">z</text>`),
+
+    hairless: svg("A hairless cat with wrinkly pink skin", `${shadow(62, 40)}
+      <path d="M88 46 C102 44 106 28 100 18" fill="none" stroke="#e8bda8" stroke-width="3.5" stroke-linecap="round"/>
+      <rect x="54" y="52" width="6" height="22" rx="3" fill="#d9aa94"/><rect x="85" y="52" width="6" height="22" rx="3" fill="#d9aa94"/>
+      <rect x="44" y="52" width="6" height="22" rx="3" fill="#e8bda8"/><rect x="76" y="52" width="6" height="22" rx="3" fill="#e8bda8"/>
+      <ellipse cx="66" cy="47" rx="26" ry="12" fill="#e8bda8"/>
+      <path d="M50 42 q4 -3 8 0 M52 47 q4 -3 8 0 M76 41 q4 -3 8 0" stroke="#c98f7a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      <polygon points="23,32 20,7 36,24" fill="#e8bda8"/><polygon points="37,23 50,5 50,29" fill="#e8bda8"/>
+      <polygon points="25.5,28 24,13 32,24" fill="#d99a86"/><polygon points="40,23 47.5,11 47.5,26" fill="#d99a86"/>
+      <circle cx="36" cy="36" r="12.5" fill="#e8bda8"/>
+      <path d="M31 27 q4 -2 8 0 M32 30 q4 -2 8 0" stroke="#c98f7a" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <ellipse cx="30" cy="35" rx="2.2" ry="2.6" fill="#1d1b18"/><circle cx="25" cy="40" r="1.5" fill="#d9777a"/>`),
+
+    away: svg("A tabby cat sitting with its back to you", `${shadow(62, 30)}
+      <path d="M74 72 C94 74 98 58 90 50" stroke="#e59a4b" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M40 74 C36 50 46 36 60 36 C74 36 84 50 80 74 Z" fill="#e59a4b"/>
+      <path d="M50 47 q10 4 20 0 M46 56 q14 5 28 0 M44 65 q16 5 32 0" stroke="#b8672a" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <polygon points="46,22 47,5 57,15" fill="#e59a4b"/><polygon points="63,15 73,5 74,22" fill="#e59a4b"/>
+      <circle cx="60" cy="25" r="14" fill="#e59a4b"/>
+      <path d="M55 13 v8 M60 11 v10 M65 13 v8" stroke="#b8672a" stroke-width="2.5" stroke-linecap="round"/>`),
+
+    rabbit: svg("A lop-eared rabbit with ears hanging down", `${shadow(62, 38)}
+      <ellipse cx="80" cy="73" rx="13" ry="3.5" fill="#a8957f"/>
+      <ellipse cx="76" cy="57" rx="23" ry="16" fill="#c9b8a6"/>
+      <ellipse cx="70" cy="73" rx="14" ry="4" fill="#b9a794"/>
+      <rect x="51" y="56" width="7" height="18" rx="3.5" fill="#b9a794"/>
+      <ellipse cx="60" cy="53" rx="22" ry="14" fill="#c9b8a6"/>
+      <rect x="42" y="56" width="7" height="18" rx="3.5" fill="#c9b8a6"/>
+      <circle cx="40" cy="40" r="13" fill="#c9b8a6"/>
+      <path d="M43 28 C55 29 58 50 52 60 C47 58 43 45 43 28 Z" fill="#b9a794"/>
+      <path d="M45 32 C52 34 54 48 51 55 C48 52 46 44 45 32 Z" fill="#e4a7a0"/>
+      <circle cx="35" cy="38" r="2.1" fill="#1d1b18"/><circle cx="28" cy="43" r="1.6" fill="#d9777a"/>
+      <path d="M29 45 L17 44 M29 47 L18 50" stroke="#1d1b18" stroke-width=".9" opacity=".6"/>`),
+  };
+
   const all = { ears: 1, whiskers: 1, fur: 1, legs: 1, tail: 1 };
   const ANIMALS = [
-    { name: "Cat, walking", pic: "🐈", cat: true, f: { ...all } },
-    { name: "Fox", pic: "🦊", cat: false, f: { ...all } },
-    { name: "Husky", pic: "🐕", cat: false, f: { ...all } },
-    { name: "Cat, curled up asleep", pic: "🐈‍⬛", cat: true, f: { ...all, legs: 0, tail: 0 } },
-    { name: "Hairless cat", pic: "🐈", picClass: "faded", cat: true, f: { ...all, fur: 0, whiskers: 0 } },
-    { name: "Cat, facing away", pic: "🐈", picClass: "flip", cat: true, f: { ...all, whiskers: 0 } },
-    { name: "Lop-eared rabbit", pic: "🐇", cat: false, f: { ...all, ears: 0, tail: 0 } },
+    { name: "Cat, walking", art: "walking", cat: true, f: { ...all } },
+    { name: "Fox", art: "fox", cat: false, f: { ...all } },
+    { name: "Husky", art: "husky", cat: false, f: { ...all } },
+    { name: "Cat, curled up asleep", art: "curled", cat: true, f: { ...all, legs: 0 } },
+    { name: "Hairless cat", art: "hairless", cat: true, f: { ...all, fur: 0, whiskers: 0 } },
+    { name: "Cat, facing away", art: "away", cat: true, f: { ...all, whiskers: 0, legs: 0 } },
+    { name: "Lop-eared rabbit", art: "rabbit", cat: false, f: { ...all, ears: 0, tail: 0 } },
   ];
   const chosen = new Set();
   let catTries = 0;
@@ -414,7 +507,7 @@
       if (ok) right++;
       const feats = FEATURES.map((f) => `<span class="${a.f[f.id] ? "" : "no"}">${f.short}</span>`).join("");
       return `<div class="animal ${ok ? "good" : "bad"}">
-        <div class="animal-pic ${a.picClass || ""}" aria-hidden="true">${a.pic}</div>
+        <div class="animal-pic">${ART[a.art]}</div>
         <div class="animal-name">${a.name}</div>
         <div class="animal-feats" aria-label="Visible features">${feats}</div>
         <div class="animal-says">Rule says: ${saysCat ? "CAT" : "NOT A CAT"} ${ok ? "✓" : "✗"}</div>
