@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var t=localStorage.getItem("learnai.theme")||"slate";if(t!=="auto")document.documentElement.dataset.theme=t}catch(e){}</script>
+<title>A Single Neuron · Learn AI</title>
+<meta name="description" content="Stop 3 of Learn AI: build an artificial neuron that makes decisions from numbers, then tune it by hand.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="stop.css">
+</head>
+<body>
+
+<header class="site-bar">
+  <div class="wrap bar-inner">
+    <a href="../../index.html" class="brand">Learn AI <span>from the ground up</span></a>
+    <span class="stop-count">Stop 3 / 11</span>
+  </div>
+  <div class="progress"><div class="progress-fill" id="progress"></div></div>
+</header>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <div class="hero wrap">
+    <p class="eyebrow">Stop 3 · A single neuron</p>
+    <h1>How can numbers make a decision?</h1>
+    <p class="lede">You now know that everything a computer handles is numbers. So what's the simplest thing you could do with numbers that looks like <em>deciding</em>? The answer is only two steps long, and it's the building block of every modern AI.</p>
+    <div class="meta"><span>~15 minutes</span><span>Multiplying and adding only</span></div>
+  </div>
+
+  <!-- ============ PART 1: weigh it up ============ -->
+  <section class="section" id="s1">
+    <div class="wrap">
+      <p class="eyebrow">Part 1 · Weigh it up</p>
+      <h2>Should you go to the park?</h2>
+      <p>It's after school. Three things might affect whether you go to the park. As we learned in Stop 2, a computer needs them as numbers, so each one becomes <strong>1 for yes</strong> or <strong>0 for no</strong>.</p>
+      <p>But they don't all matter equally. Give each one a <strong>weight</strong>: how much it pushes you towards going. A <strong class="pos">positive</strong> weight pushes you to go. A <strong class="neg">negative</strong> weight puts you off.</p>
+
+      <div class="card neuron-card" id="n1"></div>
+
+      <p>That's step one of a neuron: <strong>multiply each input by its weight, then add them all up.</strong> Nothing else. Notice that a "no" (0) wipes out its weight completely, because anything times 0 is 0.</p>
+      <button class="btn primary continue" data-reveal="s2">But what does the score mean?</button>
+    </div>
+  </section>
+
+  <!-- ============ PART 2: make the call ============ -->
+  <section class="section" id="s2" hidden>
+    <div class="wrap">
+      <p class="eyebrow">Part 2 · Make the call</p>
+      <h2>Add a threshold</h2>
+      <p>A score isn't a decision yet. So we add step two: a <strong>threshold</strong>. If the score reaches the threshold, the answer is <strong>GO</strong>. If it doesn't, the answer is <strong>STAY</strong>. We've carried over the weights you chose in Part 1.</p>
+
+      <div class="card neuron-card" id="n2"></div>
+
+      <div class="callout">
+        <p>What you've just built is called an <strong>artificial neuron</strong>. That's the whole thing: <strong>multiply, add, compare</strong>. It takes numbers in, weighs them up, and makes a yes-or-no decision.</p>
+      </div>
+
+      <div class="anatomy">
+        <div><span class="dot-key in"></span><strong>Inputs</strong> the numbers coming in</div>
+        <div><span class="dot-key w"></span><strong>Weights</strong> how much each input matters</div>
+        <div><span class="dot-key sum"></span><strong>Sum</strong> multiply each input by its weight and add up</div>
+        <div><span class="dot-key out"></span><strong>Threshold</strong> is the sum big enough to say yes?</div>
+      </div>
+
+      <details class="deeper">
+        <summary>Why is it called a neuron?<span class="tag-deeper">Go deeper</span></summary>
+        <div class="deeper-body">
+          <p>Your brain is made of around 86 billion cells called <strong>neurons</strong>. Each one receives signals from many others. Some signals excite it and some calm it down. If the total excitement is strong enough, it "fires" and sends a signal of its own.</p>
+          <p>In 1943, two scientists, Warren McCulloch and Walter Pitts, described a very simplified maths version of this, much like the one you just built. In 1958, Frank Rosenblatt built a machine called the <em>Perceptron</em> that used artificial neurons to recognise simple shapes. Real brain cells are far more complicated, but the name stuck.</p>
+        </div>
+      </details>
+
+      <button class="btn primary continue" data-reveal="s3">Can you think like a neuron?</button>
+    </div>
+  </section>
+
+  <!-- ============ PART 3: predict ============ -->
+  <section class="section" id="s3" hidden>
+    <div class="wrap">
+      <p class="eyebrow">Part 3 · Think like a neuron</p>
+      <h2>Predict the decision</h2>
+      <p>Here's Alex's neuron. Its weights and threshold are fixed. For each afternoon below, <strong>work it out in your head first</strong>, then make your prediction.</p>
+
+      <div class="card neuron-card" id="n3"></div>
+
+      <div class="predictions" id="predictions"></div>
+      <p class="predict-score" id="predict-score" aria-live="polite"></p>
+      <button class="btn primary continue" data-reveal="s4" id="c3" hidden>Now for something harder</button>
+    </div>
+  </section>
+
+  <!-- ============ PART 4: fit Sam ============ -->
+  <section class="section" id="s4" hidden>
+    <div class="wrap">
+      <p class="eyebrow">Part 4 · Copy someone's decisions</p>
+      <h2>Build Sam's neuron</h2>
+      <p>You don't know how Sam thinks. All you have is what Sam actually did on six afternoons. Your job: <strong>set the weights and threshold so the neuron makes the same choice as Sam every time.</strong></p>
+      <p>Click any afternoon to see it in the neuron.</p>
+
+      <div class="card neuron-card" id="n4"></div>
+
+      <div class="days-table" id="sam-table" role="table" aria-label="Sam's six afternoons"></div>
+      <p class="sam-score" id="sam-score" aria-live="polite"></p>
+      <div class="sam-help">
+        <button class="btn" id="sam-hint">I'm stuck, give me a hint</button>
+        <p class="hint" id="sam-hint-text" hidden></p>
+      </div>
+      <div class="callout success" id="sam-win" hidden>
+        <p><strong>6 out of 6. You've copied Sam's thinking.</strong></p>
+        <p>Look at what you just did. You never saw inside Sam's head. You looked at <strong>examples</strong>, spotted where the neuron was wrong, and <strong>nudged the numbers</strong> until it was right every time. That is exactly what "learning" means for a machine. Hold that thought.</p>
+      </div>
+
+      <details class="deeper">
+        <summary>The threshold in disguise<span class="tag-deeper">Go deeper</span></summary>
+        <div class="deeper-body">
+          <p>Engineers usually don't use a threshold. Instead they subtract it from the sum up front and call it a <strong>bias</strong>. Then the rule is always "fire if the total is 0 or more". "Sum ≥ 3" and "sum − 3 ≥ 0" mean exactly the same thing, but this way the bias is just one more number to adjust, like a weight.</p>
+        </div>
+      </details>
+
+      <button class="btn primary continue" data-reveal="s5" id="c4" hidden>What about pictures?</button>
+    </div>
+  </section>
+
+  <!-- ============ PART 5: picture neuron ============ -->
+  <section class="section" id="s5" hidden>
+    <div class="wrap">
+      <p class="eyebrow">Part 5 · A neuron that looks</p>
+      <h2>25 inputs, 25 weights</h2>
+      <p>A neuron doesn't care what its inputs mean. They could be yes/no questions, or they could be <strong>pixels</strong>. Here's a neuron looking at a tiny 5 × 5 picture: 25 inputs, each with its own weight. Its job is to answer one question: <strong>is there a line down the middle?</strong></p>
+      <p><strong>Draw on the left grid</strong> (1 = ink, 0 = blank). The right grid shows the neuron's weights.</p>
+
+      <div class="card eye">
+        <div class="eye-grids">
+          <figure>
+            <div class="mini-grid input" id="eye-input" aria-label="Input picture: click squares to draw"></div>
+            <figcaption>Input picture</figcaption>
+          </figure>
+          <span class="eye-times" aria-hidden="true">×</span>
+          <figure>
+            <div class="mini-grid weights" id="eye-weights" aria-hidden="true"></div>
+            <figcaption>Weights</figcaption>
+          </figure>
+        </div>
+        <div class="eye-result" id="eye-result" aria-live="polite"></div>
+        <div class="eye-controls">
+          <span>Detector:</span>
+          <button class="chip" data-detector="vertical" aria-pressed="true">Line down the middle</button>
+          <button class="chip" data-detector="horizontal" aria-pressed="false">Line across the middle</button>
+          <button class="chip" id="eye-clear">Clear picture</button>
+        </div>
+      </div>
+
+      <p><strong>Try this:</strong> draw a line across instead. Draw a line down the middle but make it wonky. Draw a very thick line. The neuron is <em>fussy</em>. It only fires for pictures that closely match its weights. (Much later we'll see that teams of neurons can be far less fussy.)</p>
+
+      <div class="callout">
+        <p>Choosing 25 weights by hand was just about possible, because we knew what a line looks like. But the 16 × 16 cat from Stop 1 would need <strong>256</strong> weights, and a phone photo would need <strong>millions</strong>. And what weights would even mean "cat"? Nobody could set those by hand.</p>
+        <p>So here's the big question for the next stop: <strong>could a machine find its own weights, the way you did for Sam, by learning from its mistakes?</strong></p>
+      </div>
+
+      <h2 class="summary-head">What you now know</h2>
+      <ol class="takeaways">
+        <li><span>An artificial neuron <strong>multiplies</strong> each input by a weight, <strong>adds</strong> them up, and <strong>compares</strong> the total with a threshold.</span></li>
+        <li><span>The <strong>weights are the neuron's knowledge</strong>. Same inputs, different weights, different decision.</span></li>
+        <li><span>Inputs can be anything turned into numbers, including pixels.</span></li>
+        <li><span>You found Sam's weights by trying, checking against examples, and nudging. Machines need a way to do that for themselves.</span></li>
+      </ol>
+
+      <a class="next-stop" href="../../index.html">
+        <span><small>Next · Stop 4</small><strong>Learning from mistakes</strong></span>
+        <span class="soon">Coming soon →</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">Learn AI · Stop 3 · A single neuron</div>
+</footer>
+
+<script src="../../assets/js/site.js"></script>
+<script src="stop.js"></script>
+</body>
+</html>
