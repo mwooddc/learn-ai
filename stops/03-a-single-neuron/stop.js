@@ -6,7 +6,19 @@
   const fmtTerm = (n) => (n < 0 ? `(${fmt(n)})` : fmt(n));
 
   const INPUTS = ["Sunny", "Friends", "Homework"];
-  const INPUT_HELP = ["Is it sunny?", "Are your friends going?", "Is homework due tomorrow?"];
+  const INPUT_HELP = ["Is it sunny today?", "Are your friends going?", "Is homework due tomorrow?"];
+  // How each fact reads in plain English when it's true (1) or false (0).
+  const FACT = [
+    ["it isn't sunny", "it's sunny"],
+    ["friends aren't going", "friends are going"],
+    ["no homework is due", "homework is due"],
+  ];
+  // What a weight means, in words, so −5 isn't mistaken for "don't care".
+  function weightMeaning(w) {
+    if (w === 0) return "doesn't matter to me";
+    const size = Math.abs(w) >= 5 ? "a huge" : Math.abs(w) >= 3 ? "a strong" : "a small";
+    return `${size} reason to ${w > 0 ? "go" : "stay"}`;
+  }
 
   /* ============ The neuron widget (used in Parts 1–4) ============
      Draws the diagram, the controls and the working-out line, and keeps
@@ -22,27 +34,37 @@
     root.innerHTML = `
       <svg class="neuron-svg" viewBox="0 0 480 300" role="img" aria-label="Diagram of the neuron: three inputs, each multiplied by a weight, summed${showT ? " and compared with a threshold" : ""}"></svg>
       <div class="n-controls"></div>
-      <p class="n-maths" aria-live="polite"></p>`;
+      <div class="n-maths" aria-live="polite"></div>`;
     const svg = root.querySelector("svg");
     const controls = root.querySelector(".n-controls");
     const maths = root.querySelector(".n-maths");
 
     // ---- controls ----
-    let html = `<div class="n-row n-head"><span></span><span>Input</span><span>Weight</span></div>`;
+    // Two clearly separate kinds of number: facts about today (inputs)
+    // and how much each fact matters to this person (weights).
+    let html = `<div class="n-row n-head">
+        <span></span>
+        <span><span class="kind in">Today's facts</span><small>the inputs · yes = 1, no = 0</small></span>
+        <span><span class="kind wt">How much it matters</span><small>the weights · −5 to +5</small></span>
+      </div>`;
     INPUTS.forEach((name, i) => {
       const val = opts.editValues
         ? `<button class="toggle" data-i="${i}" aria-label="${INPUT_HELP[i]}"></button>`
         : `<span class="toggle static" data-i="${i}"></span>`;
       const wt = opts.editWeights
-        ? `<input type="range" min="-5" max="5" step="1" data-w="${i}" aria-label="Weight for ${name}"><output class="mono" data-wo="${i}"></output>`
-        : `<span class="mono wt-static" data-wo="${i}"></span>`;
-      html += `<div class="n-row"><span class="n-name">${name}</span><span>${val}</span><span class="n-weight">${wt}</span></div>`;
+        ? `<span class="w-line"><input type="range" min="-5" max="5" step="1" data-w="${i}" aria-label="How much ${name.toLowerCase()} matters"><output class="mono" data-wo="${i}"></output></span>`
+        : `<span class="w-line"><span class="mono wt-static" data-wo="${i}"></span></span>`;
+      html += `<div class="n-row">
+        <span class="n-name">${name}<small>${INPUT_HELP[i]}</small></span>
+        <span>${val}</span>
+        <span class="n-weight">${wt}<small class="w-mean" data-wm="${i}"></small></span>
+      </div>`;
     });
     if (showT) {
       const th = opts.editThreshold
         ? `<input type="range" min="0" max="10" step="1" data-t aria-label="Threshold"><output class="mono" data-to></output>`
         : `<span class="mono wt-static" data-to></span>`;
-      html += `<div class="n-row n-threshold"><span class="n-name">Threshold</span><span class="n-t-help">GO if the sum reaches</span><span class="n-weight">${th}</span></div>`;
+      html += `<div class="n-row n-threshold"><span class="n-name">Threshold</span><span class="n-t-help">GO if the sum reaches</span><span class="n-weight"><span class="w-line">${th}</span></span></div>`;
     }
     controls.innerHTML = html;
 
@@ -63,7 +85,9 @@
 
     function drawSvg() {
       const ys = [60, 150, 240], nx = 300, ny = 150, ix = 138;
-      let g = "";
+      let g = `<text class="col-head in" x="${ix}" y="16">TODAY</text>
+               <text class="col-head wt" x="${ix + 24 + (nx - 44 - ix - 24) * 0.45}" y="16">WEIGHT</text>
+               <text class="col-head" x="${nx}" y="16">SUM</text>`;
       ys.forEach((y, i) => {
         const w = s.weights[i], on = s.values[i] === 1;
         const cls = w === 0 ? "zero" : w > 0 ? "pos" : "neg";
@@ -108,16 +132,40 @@
         o.textContent = fmt(w);
         o.className = o.className.replace(/\b(pos|neg|zero)\b/g, "").trim() + " " + (w === 0 ? "zero" : w > 0 ? "pos" : "neg");
       });
+      controls.querySelectorAll("[data-wm]").forEach((m) => {
+        const w = s.weights[+m.dataset.wm];
+        m.textContent = weightMeaning(w);
+        m.className = "w-mean " + (w === 0 ? "zero" : w > 0 ? "pos" : "neg");
+      });
       const t = controls.querySelector("[data-t]"); if (t) t.value = s.threshold;
       const to = controls.querySelector("[data-to]"); if (to) to.textContent = fmt(s.threshold);
 
+      // The working-out, then the same thing in plain English.
+      const total = sum();
       const terms = s.values.map((v, i) => `<span class="term ${v ? "" : "zero"}">${v} × ${fmtTerm(s.weights[i])}</span>`).join(" + ");
-      let line = `${terms} = <strong>${fmt(sum())}</strong>`;
+      let line = `<p class="n-sum">${terms} = <strong>${fmt(total)}</strong>`;
       if (showT) {
         line += fires()
           ? ` <span class="verdict go">reaches ${fmt(s.threshold)} → GO</span>`
           : ` <span class="verdict stay">below ${fmt(s.threshold)} → STAY</span>`;
       }
+      line += `</p>`;
+      const signed = (n) => (n > 0 ? `+${n}` : fmt(n));
+      const counted = s.values.map((v, i) => (v ? `${FACT[i][1]} (${signed(s.weights[i])})` : null)).filter(Boolean);
+      const ignored = s.values.map((v, i) => (v ? null : FACT[i][0])).filter(Boolean);
+      const list = (a) => (a.length > 1 ? `${a.slice(0, -1).join(", ")} and ${a[a.length - 1]}` : a[0]);
+      let words = counted.length ? `Counted: ${list(counted)}. ` : "";
+      if (ignored.length) {
+        const which = !counted.length ? "all three weights are" : ignored.length > 1 ? "those weights are" : "that weight is";
+        words += `${list(ignored).replace(/^./, (c) => c.toUpperCase())}, so ${which} ignored (× 0). `;
+      }
+      if (!showT) {
+        words += total > 0 ? `Total ${fmt(total)}: more reasons to go than to stay.`
+          : total < 0 ? `Total ${fmt(total)}: more reasons to stay than to go.`
+          : counted.length ? "Total 0: the reasons balance out exactly."
+          : "Total 0: nothing pushes you either way.";
+      }
+      line += `<p class="n-words">${words}</p>`;
       maths.innerHTML = line;
       drawSvg();
       if (opts.onChange) opts.onChange(api);
@@ -138,7 +186,31 @@
   }
 
   /* ================= PART 1 ================= */
-  const n1 = Neuron($("#n1"), { values: [1, 1, 0], weights: [2, 3, -4], editValues: true, editWeights: true });
+  // A short checklist of experiments that tick themselves off, so learners
+  // discover what inputs and weights each do before moving on.
+  const TRIES = [
+    { id: "flip", test: (st, prev) => prev && st.values.some((v, i) => v === 0 && prev.values[i] === 1),
+      done: "The weight didn't change, but × 0 means it no longer counts. A \"no\" is simply ignored." },
+    { id: "zero", test: (st) => st.weights.some((w) => w === 0),
+      done: "A weight of 0 means that fact makes no difference, whether it's true or not." },
+    { id: "neg", test: (st) => st.values.reduce((a, v, i) => a + v * st.weights[i], 0) < 0,
+      done: "A negative sum means the reasons to stay outweigh the reasons to go." },
+  ];
+  const ticked = new Set();
+  let prev1 = null;
+  function checkTries(n) {
+    const st = n.state;
+    TRIES.forEach((t) => {
+      if (ticked.has(t.id) || !t.test(st, prev1)) return;
+      ticked.add(t.id);
+      const li = document.querySelector(`[data-try="${t.id}"]`);
+      li.classList.add("done");
+      li.querySelector(".try-result").textContent = t.done;
+    });
+    prev1 = st;
+    if (ticked.size === TRIES.length) showOnce("c1");
+  }
+  const n1 = Neuron($("#n1"), { values: [1, 1, 0], weights: [2, 3, -4], editValues: true, editWeights: true, onChange: checkTries });
 
   /* ================= PART 2 (starts from the learner's Part 1 neuron) ================= */
   let n2 = null;

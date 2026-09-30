@@ -37,13 +37,35 @@
     <div class="wrap">
       <p class="eyebrow">Part 1 · Weigh it up</p>
       <h2>Should you go to the park?</h2>
-      <p>It's after school. Three things might affect whether you go to the park. As we learned in Stop 2, a computer needs them as numbers, so each one becomes <strong>1 for yes</strong> or <strong>0 for no</strong>.</p>
-      <p>But they don't all matter equally. Give each one a <strong>weight</strong>: how much it pushes you towards going. A <strong class="pos">positive</strong> weight pushes you to go. A <strong class="neg">negative</strong> weight puts you off.</p>
+      <p>It's after school and you're deciding whether to go to the park. Two completely different kinds of number go into this decision.</p>
+
+      <div class="two-kinds">
+        <div class="kind-card in">
+          <h3>1. Today's facts <span>the inputs</span></h3>
+          <p>Is it sunny? Are your friends going? Is homework due? <strong>You don't choose these. The day does.</strong> Each is a yes-or-no question, so the computer stores <strong>yes as 1</strong> and <strong>no as 0</strong>.</p>
+          <p class="small">Flipping them below is like trying out a different afternoon.</p>
+        </div>
+        <div class="kind-card wt">
+          <h3>2. How much each fact matters to you <span>the weights</span></h3>
+          <p>This is about <strong>you</strong>, not the day. Some people love sunshine; some don't care.</p>
+          <p class="scale"><span class="pos">+5</span> a huge reason to go · <span class="zero">0</span> doesn't matter to me · <span class="neg">−5</span> a huge reason to stay</p>
+        </div>
+      </div>
 
       <div class="card neuron-card" id="n1"></div>
 
-      <p>That's step one of a neuron: <strong>multiply each input by its weight, then add them all up.</strong> Nothing else. Notice that a "no" (0) wipes out its weight completely, because anything times 0 is 0.</p>
-      <button class="btn primary continue" data-reveal="s2">But what does the score mean?</button>
+      <div class="tries card">
+        <p class="tries-title">Try these. Each one ticks when you've done it.</p>
+        <ol class="try-list">
+          <li data-try="flip"><span class="try-box" aria-hidden="true"></span><div><strong>Change a fact from Yes to No.</strong> What happens to its part of the sum?<p class="try-result"></p></div></li>
+          <li data-try="zero"><span class="try-box" aria-hidden="true"></span><div><strong>Set one weight to 0.</strong> Now flip that fact on and off. Does it make any difference?<p class="try-result"></p></div></li>
+          <li data-try="neg"><span class="try-box" aria-hidden="true"></span><div><strong>Make the sum negative.</strong><p class="try-result"></p></div></li>
+        </ol>
+      </div>
+
+      <p>That's step one of a neuron: <strong>multiply each input by its weight, then add them all up.</strong> A "yes" (1) lets its weight count in full. A "no" (0) cancels its weight out, because anything × 0 = 0.</p>
+      <p class="small">Here the inputs are only ever 0 or 1, because they're yes/no questions. Inputs can be other numbers too, like a temperature, or the brightness of a pixel. You'll see that in Part 5.</p>
+      <button class="btn primary continue" data-reveal="s2" id="c1" hidden>But what does the sum actually decide?</button>
     </div>
   </section>
 
