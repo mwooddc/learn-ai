@@ -67,7 +67,7 @@
 <script>
   const STOPS = [
     { id: "01-rules-break", title: "Rules break", blurb: "Why can't we just program a computer to be smart? Write the rules yourself and watch them fail." },
-    { title: "Everything is numbers", blurb: "Pictures, sounds and words, as a computer really sees them." },
+    { id: "02-everything-is-numbers", title: "Everything is numbers", blurb: "Pictures, sounds and words, as a computer really sees them." },
     { title: "A single neuron", blurb: "A decision is just a weighted vote. Build one." },
     { title: "Learning from mistakes", blurb: "Watch a machine get better by nudging its numbers." },
     { title: "Finding the bottom of the hill", blurb: "How do you get less wrong when you can only see your feet?" },
@@ -78,15 +78,18 @@
     { title: "Paying attention", blurb: "How context changes what a word means." },
     { title: "Scale it up: the LLM", blurb: "Everything you've built, together, a billion times bigger." },
   ];
+  // The first unfinished stop is where the learner should go next.
+  const nextId = (STOPS.find((s) => s.id && !LearnAI.isComplete(s.id)) || {}).id;
   document.getElementById("journey").innerHTML = STOPS.map((s, i) => {
     const n = String(i + 1).padStart(2, "0");
     if (!s.id) {
       return `<li class="soon"><span class="dot">${n}</span><div class="stop-card"><h3>${s.title}</h3><p>${s.blurb}</p><div class="status">Coming soon</div></div></li>`;
     }
     const done = LearnAI.isComplete(s.id);
+    const status = done ? "Completed · revisit" : s.id === nextId ? "Start here →" : "Open →";
     return `<li class="${done ? "done" : "open"}"><span class="dot">${done ? "✓" : n}</span>
       <a class="stop-card" href="stops/${s.id}/index.html"><h3>${s.title}</h3><p>${s.blurb}</p>
-      <div class="status">${done ? "Completed · revisit" : "Start here →"}</div></a></li>`;
+      <div class="status">${status}</div></a></li>`;
   }).join("");
 </script>
 </body>

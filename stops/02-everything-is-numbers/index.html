@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var t=localStorage.getItem("learnai.theme")||"slate";if(t!=="auto")document.documentElement.dataset.theme=t}catch(e){}</script>
+<title>Everything Is Numbers · Learn AI</title>
+<meta name="description" content="Stop 2 of Learn AI: how pictures, colours, sounds and words all become numbers, and why that matters for AI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="stop.css">
+</head>
+<body>
+
+<header class="site-bar">
+  <div class="wrap bar-inner">
+    <a href="../../index.html" class="brand">Learn AI <span>from the ground up</span></a>
+    <span class="stop-count">Stop 2 / 11</span>
+  </div>
+  <div class="progress"><div class="progress-fill" id="progress"></div></div>
+</header>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <div class="hero wrap">
+    <p class="eyebrow">Stop 2 · Everything is numbers</p>
+    <h1>How does a computer see, hear and read?</h1>
+    <p class="lede">At the end of Stop 1, a picture of a cat turned out to be 256 numbers. That wasn't a trick. A computer can't do <em>anything</em> with a picture, a sound or a word until it has been turned into numbers. You're going to do the turning.</p>
+    <div class="meta"><span>~15 minutes</span><span>Turn your sound on for Part 4</span></div>
+  </div>
+
+  <!-- ============ PART 1: paint with numbers ============ -->
+  <section class="section" id="s1">
+    <div class="wrap">
+      <p class="eyebrow">Part 1 · Pictures</p>
+      <h2>Paint with numbers</h2>
+      <p>A digital picture is a grid of tiny squares called <strong>pixels</strong>. In a black-and-white picture, each pixel is just one number: how bright it is. <strong>0 is black, 255 is white</strong>, and everything in between is a shade of grey.</p>
+      <p>Paint on the left grid. Watch the right grid, which shows what the computer actually stores.</p>
+
+      <div class="card paint">
+        <div class="brush">
+          <span class="brush-label">Brush</span>
+          <div class="brush-presets" id="brush-presets"></div>
+          <label class="brush-slider">
+            <span class="sr-only">Brush brightness</span>
+            <input type="range" id="brush" min="0" max="255" value="0">
+          </label>
+          <span class="brush-swatch" id="brush-swatch"></span>
+          <output class="brush-value mono" id="brush-value">0</output>
+        </div>
+
+        <div class="paint-grids">
+          <figure>
+            <div class="grid pic" id="paint-pic" aria-label="Picture grid: click or drag to paint"></div>
+            <figcaption>What you see</figcaption>
+          </figure>
+          <figure>
+            <div class="grid nums" id="paint-nums" aria-hidden="true"></div>
+            <figcaption>What the computer stores</figcaption>
+          </figure>
+        </div>
+
+        <div class="paint-foot">
+          <button class="btn" id="paint-clear">Clear to white</button>
+          <button class="btn" id="paint-smiley">Bring back the smiley</button>
+          <span class="count mono">12 × 12 = 144 numbers</span>
+        </div>
+      </div>
+
+      <p class="challenge"><strong>Try this:</strong> paint the first letter of your name. Then try to make something look <em>curved</em>, using only squares and a few greys.</p>
+
+      <details class="deeper">
+        <summary>Why stop at 255?<span class="tag-deeper">Go deeper</span></summary>
+        <div class="deeper-body">
+          <p>Inside a computer, every number is stored with tiny switches that are either off or on. A group of 8 switches can be set in 2 × 2 × 2 × 2 × 2 × 2 × 2 × 2 = <strong>256</strong> different ways, so it can store any number from 0 to 255. A group of 8 switches is called a <strong>byte</strong>.</p>
+          <p>256 shades of grey turns out to be enough that your eye can't see the steps between them.</p>
+        </div>
+      </details>
+
+      <button class="btn primary continue" data-reveal="s2" id="c1" hidden>How many numbers does a real picture need?</button>
+    </div>
+  </section>
+
+  <!-- ============ PART 2: resolution ============ -->
+  <section class="section" id="s2" hidden>
+    <div class="wrap">
+      <p class="eyebrow">Part 2 · Resolution</p>
+      <h2>How many numbers?</h2>
+      <p>Your 12 × 12 grid was tiny. Real pictures use far more pixels. Drag the slider to change how many pixels this picture gets.</p>
+
+      <div class="card res">
+        <canvas id="res-canvas" width="256" height="256" aria-label="A picture of a cat's face at the chosen number of pixels" role="img"></canvas>
+        <div class="res-controls">
+          <label for="res-slider" class="res-label">Pixels across</label>
+          <input type="range" id="res-slider" min="0" max="5" value="1" step="1">
+          <p class="res-readout"><span class="mono" id="res-size">8 × 8</span> = <strong id="res-count">64</strong> numbers</p>
+          <p class="res-note" id="res-note"></p>
+        </div>
+      </div>
+
+      <p>What's the <strong>smallest</strong> grid where you can still tell it's a cat? Your brain is incredibly good at this. Remember that, because an AI has to work out "cat" from nothing but these numbers.</p>
+      <div class="callout">
+        <p>A typical phone photo is about <strong>4,000 × 3,000 pixels</strong>. That's <strong>12 million</strong> pixels, and it's in colour, which makes it bigger still. Keep going to see why.</p>
+      </div>
+
+      <button class="btn primary continue" data-reveal="s3" id="c2" hidden>What about colour?</button>
+    </div>
+  </section>
+
+  <!-- ============ PART 3: colour ============ -->
+  <section class="section" id="s3" hidden>
+    <div class="wrap">
+      <p class="eyebrow">Part 3 · Colour</p>
+      <h2>Colour is three numbers</h2>
+      <p>Look at a screen through a magnifying glass and you'll see that every pixel is really three tiny lights: <strong class="r">red</strong>, <strong class="g">green</strong> and <strong class="b">blue</strong>. Each light has a brightness from 0 to 255. Mix them and you can make any colour.</p>
+
+      <div class="card mixer">
+        <div class="target">
+          <div class="swatch-pair">
+            <div><div class="big-swatch" id="target-swatch"></div><span>Target</span></div>
+            <div><div class="big-swatch" id="mix-swatch"></div><span>Your mix</span></div>
+          </div>
+          <p class="target-title" id="target-title">Match this colour</p>
+          <div class="closeness" aria-live="polite">
+            <div class="close-track"><div class="close-fill" id="close-fill"></div></div>
+            <span class="mono" id="close-text"></span>
+          </div>
+        </div>
+
+        <div class="sliders">
+          <label class="slider r"><span>Red</span><input type="range" id="sl-r" min="0" max="255" value="0"><output class="mono" id="out-r">0</output></label>
+          <label class="slider g"><span>Green</span><input type="range" id="sl-g" min="0" max="255" value="0"><output class="mono" id="out-g">0</output></label>
+          <label class="slider b"><span>Blue</span><input type="range" id="sl-b" min="0" max="255" value="0"><output class="mono" id="out-b">0</output></label>
+        </div>
+
+        <div class="match-msg" id="match-msg" hidden></div>
+      </div>
+
+      <p>So each pixel of a colour photo is <strong>three numbers</strong>, not one. That 12-million-pixel phone photo? <strong>36 million numbers.</strong></p>
+
+      <details class="deeper">
+        <summary>Why does red + green make yellow?<span class="tag-deeper">Go deeper</span></summary>
+        <div class="deeper-body">
+          <p>Mixing paint and mixing light work differently. Paint <em>absorbs</em> light, so mixing paints takes colours away and gets darker. A screen <em>gives out</em> light, so mixing adds colours together and gets brighter.</p>
+          <p>Your eye has three kinds of colour sensor, roughly tuned to red, green and blue. When red and green lights are both on, those two sensors fire together, which is exactly what happens when you look at something yellow. The screen is tricking your eye.</p>
+        </div>
+      </details>
+
+      <button class="btn primary continue" data-reveal="s4" id="c3" hidden>Can sound be numbers?</button>
+    </div>
+  </section>
+
+  <!-- ============ PART 4: sound ============ -->
+  <section class="section" id="s4" hidden>
+    <div class="wrap">
+      <p class="eyebrow">Part 4 · Sound</p>
+      <h2>Sound is numbers over time</h2>
+      <p>Sound is air wobbling back and forth. A microphone measures how far the air has been pushed, over and over again, and writes down a number each time. Played back quickly enough, the numbers become sound again.</p>
+      <p>Below is one wobble, made of 32 numbers from −100 to 100. <strong>Drag on it to change its shape</strong>, then press play. The computer repeats your wobble hundreds of times a second.</p>
+
+      <div class="card wave">
+        <canvas id="wave-canvas" width="640" height="220" aria-label="Wave editor: drag to change the 32 numbers that make one wobble" role="img"></canvas>
+        <p class="wave-nums mono" id="wave-nums"></p>
+        <div class="wave-controls">
+          <button class="btn primary" id="play">▶ Play</button>
+          <div class="presets" id="wave-presets" role="group" aria-label="Wave shapes"></div>
+        </div>
+        <label class="pitch">
+          <span>Repeats per second: <strong class="mono" id="pitch-out">220</strong> <span class="pitch-hint" id="pitch-hint">(a low hum)</span></span>
+          <input type="range" id="pitch" min="80" max="880" value="220" step="10">
+        </label>
+      </div>
+
+      <p>Notice that the <strong>shape</strong> of the wobble changes what kind of sound you hear, and <strong>how often it repeats</strong> changes how high it sounds. Music on your phone works the same way, with <strong>44,100 numbers for every second</strong> of sound.</p>
+
+      <details class="deeper">
+        <summary>Why 44,100?<span class="tag-deeper">Go deeper</span></summary>
+        <div class="deeper-body">
+          <p>The highest sounds people can hear wobble about 20,000 times a second. To capture a wobble you need at least two measurements per wobble (one for the push and one for the pull), so you need a little over 40,000 measurements a second. Music settled on 44,100.</p>
+          <p>We used numbers from −100 to 100 to keep things simple. Real music usually uses numbers from −32,768 to 32,767, which makes it much smoother.</p>
+        </div>
+      </details>
+
+      <button class="btn primary continue" data-reveal="s5" id="c4" hidden>And words?</button>
+    </div>
+  </section>
+
+  <!-- ============ PART 5: words ============ -->
+  <section class="section" id="s5" hidden>
+    <div class="wrap">
+      <p class="eyebrow">Part 5 · Words</p>
+      <h2>Words are numbers too</h2>
+      <p>Every letter, digit, space and emoji has an agreed number. When you type, the computer only ever stores those numbers. Type any two words and compare them.</p>
+
+      <div class="card words">
+        <div class="word-row">
+          <label for="word-a" class="sr-only">First word</label>
+          <input id="word-a" type="text" value="cat" maxlength="16" spellcheck="false" autocomplete="off">
+          <div class="codes" id="codes-a" aria-live="polite"></div>
+        </div>
+        <div class="word-row">
+          <label for="word-b" class="sr-only">Second word</label>
+          <input id="word-b" type="text" value="car" maxlength="16" spellcheck="false" autocomplete="off">
+          <div class="codes" id="codes-b" aria-live="polite"></div>
+        </div>
+        <p class="suggest">Try: <button class="chip" data-word="kitten">kitten</button><button class="chip" data-word="Cat">Cat</button><button class="chip" data-word="dog">dog</button><button class="chip" data-word="😂">😂</button></p>
+      </div>
+
+      <div class="callout">
+        <p>Look at <strong>cat</strong> (99, 97, 116) and <strong>car</strong> (99, 97, 114). The numbers are almost identical, but a cat and a car are nothing alike. Meanwhile <strong>kitten</strong> means nearly the same as cat, and its numbers look completely different. Even <strong>Cat</strong> with a capital letter starts with a different number.</p>
+        <p>These numbers are just <em>labels</em>. They say nothing about what a word <em>means</em>. Much later in the journey (Stop 8) we'll meet a much cleverer way to turn words into numbers, one where the numbers capture meaning.</p>
+      </div>
+
+      <details class="deeper">
+        <summary>Every emoji has a number too<span class="tag-deeper">Go deeper</span></summary>
+        <div class="deeper-body">
+          <p>A worldwide standard called <strong>Unicode</strong> gives a number to more than 150,000 characters: every letter in every major writing system, maths symbols, and every emoji. 😂 is number 128,514. That's why a message you send from one phone shows up correctly on a completely different phone in another country.</p>
+        </div>
+      </details>
+
+      <h2 class="summary-head">What you now know</h2>
+      <ol class="takeaways">
+        <li><span>A picture is a grid of pixels. Each pixel is a number for brightness, or three numbers (red, green, blue) for colour.</span></li>
+        <li><span>A sound is a long list of numbers measuring how the air wobbles, tens of thousands every second.</span></li>
+        <li><span>Text is a list of numbers too, but those numbers are just labels. They don't capture meaning.</span></li>
+        <li><span>So any "intelligence" a computer has must come from <strong>doing something clever with numbers</strong>. What's the simplest possible clever thing? That's the next stop.</span></li>
+      </ol>
+
+      <a class="next-stop" href="../../index.html">
+        <span><small>Next · Stop 3</small><strong>A single neuron</strong></span>
+        <span class="soon">Coming soon →</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">Learn AI · Stop 2 · Everything is numbers</div>
+</footer>
+
+<script src="../../assets/js/site.js"></script>
+<script src="stop.js"></script>
+</body>
+</html>
