@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rules Break · Learn AI</title>
+<meta name="description" content="Stop 1 of Learn AI: why we can't just program a computer to be smart. Write your own rules, then watch the real world break them.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="stop.css">
+</head>
+<body>
+
+<header class="site-bar">
+  <div class="wrap bar-inner">
+    <a href="../../index.html" class="brand">Learn AI <span>from the ground up</span></a>
+    <span class="stop-count">Stop 1 / 11</span>
+  </div>
+  <div class="progress"><div class="progress-fill" id="progress"></div></div>
+</header>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <div class="hero wrap">
+    <p class="eyebrow">Stop 1 · Rules break</p>
+    <h1>Why can't we just program a computer to be smart?</h1>
+    <p class="lede">Computers follow instructions perfectly. So to build an intelligent machine, surely we just write down the right instructions? You're going to try that and find out exactly where it goes wrong.</p>
+    <div class="meta"><span>~12 minutes</span><span>No maths needed</span></div>
+  </div>
+
+  <!-- ============ PART 1: the hook ============ -->
+  <section class="section" id="s1">
+    <div class="wrap">
+      <p class="eyebrow">Part 1 · You already know how</p>
+      <h2>Spot the scams</h2>
+      <p>You're a moderator for an online game chat. Some messages are from friends. Some are scams trying to steal accounts. Sort them. Go as fast as you like.</p>
+
+      <ul class="msgs" id="hook-list"></ul>
+
+      <div id="hook-result" class="hook-result" hidden aria-live="polite"></div>
+      <button class="btn primary continue" data-reveal="s2" id="hook-continue" hidden>So how did you do it?</button>
+    </div>
+  </section>
+
+  <!-- ============ PART 2: write the rules ============ -->
+  <section class="section" id="s2" hidden>
+    <div class="wrap">
+      <p class="eyebrow">Part 2 · Write the rules</p>
+      <h2>Now teach a computer to do it</h2>
+      <p>You sorted those without thinking. But a computer can't "just know" anything. It can only follow exact instructions, and it follows them very fast, millions of times a second, without getting tired.</p>
+      <p>One instruction a computer can follow perfectly is: <strong>does this message contain these letters?</strong> So let's build a scam filter out of rules like that. You get two kinds of rule:</p>
+
+      <div class="rule-kinds">
+        <div><span class="tag block">Block</span> the message if it contains a word.</div>
+        <div><span class="tag allow">Allow</span> the message if it contains a word. <em>Allow beats block.</em></div>
+      </div>
+
+      <div class="builder card">
+        <form id="rule-form" class="rule-form" autocomplete="off">
+          <label class="sr-only" for="rule-type">Rule type</label>
+          <select id="rule-type">
+            <option value="block">Block</option>
+            <option value="allow">Allow</option>
+          </select>
+          <label for="rule-word" class="rule-form-mid">if it contains</label>
+          <input id="rule-word" type="text" maxlength="30" placeholder="type a word…" spellcheck="false">
+          <button class="btn primary" type="submit">Add rule</button>
+        </form>
+        <p class="suggest" id="suggest">Stuck? Try: </p>
+
+        <ol class="rule-list" id="rule-list"></ol>
+        <p class="rule-empty" id="rule-empty">No rules yet, so every message gets through, scams included.</p>
+      </div>
+
+      <div class="days">
+        <div class="day-tabs" id="day-tabs" role="tablist" aria-label="Days"></div>
+        <div class="day-panel card" id="day-panel"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PART 3: the arms race ============ -->
+  <section class="section" id="s3" hidden>
+    <div class="wrap">
+      <p class="eyebrow">Part 3 · What just happened?</p>
+      <h2>Your rules were always one day behind</h2>
+      <p>Here's how your filter did on the <strong>first try</strong> each morning, before you'd seen that day's messages, compared with after you fixed it.</p>
+
+      <div class="card scoreboard" id="scoreboard" aria-live="polite"></div>
+
+      <p>Every rule you wrote came from looking at <em>yesterday's</em> messages. But the scammers only need to find one gap, and they change their words the moment a filter catches them. Meanwhile, ordinary messages keep tripping your rules by accident.</p>
+
+      <div class="lessons">
+        <div class="lesson">
+          <span class="lesson-num">1</span>
+          <h3>Rules only know what you thought of</h3>
+          <p>"FR33 G3MS" isn't "free gems", as far as your rule is concerned. A rule can't cope with anything its writer didn't imagine.</p>
+        </div>
+        <div class="lesson">
+          <span class="lesson-num">2</span>
+          <h3>Rules fight each other</h3>
+          <p>Block "free" and you block "are you free on Saturday?". Add an allow rule to fix that and you open a gap somewhere else. <button class="linklike" id="go-monday">Go back to Monday</button> and check your newest rules still work there.</p>
+        </div>
+        <div class="lesson">
+          <span class="lesson-num">3</span>
+          <h3>The list never ends</h3>
+          <p id="rule-count-line">You wrote a handful of rules for three days and a few dozen messages. A real game might see millions of messages a day, in dozens of languages.</p>
+        </div>
+      </div>
+
+      <details class="deeper">
+        <summary>This really happened: the war on spam email<span class="tag-deeper">Go deeper</span></summary>
+        <div class="deeper-body">
+          <p>Early email spam filters worked exactly like yours: lists of banned words written by people. Spammers answered with misspellings, extra spaces and even pictures of words instead of text.</p>
+          <p>In 2002 a programmer called Paul Graham suggested a different approach. Instead of people writing the rules, the computer would count how often each word appeared in spam and in normal email, and work out the rules itself from thousands of examples. Filters built this way were much harder to fool, and they kept learning as spam changed.</p>
+        </div>
+      </details>
+
+      <button class="btn primary continue" data-reveal="s4">Maybe words are just hard. Try pictures?</button>
+    </div>
+  </section>
+
+  <!-- ============ PART 4: cat rules ============ -->
+  <section class="section" id="s4" hidden>
+    <div class="wrap">
+      <p class="eyebrow">Part 4 · Pictures</p>
+      <h2>Write a rule for "cat"</h2>
+      <p>A three-year-old can spot a cat. Surely a rule for it is easy? Choose the features your rule needs. The computer will say <strong>cat</strong> only if an animal has <em>every</em> feature you choose.</p>
+
+      <div class="feature-picker card">
+        <p class="picker-label">It's a cat if it has…</p>
+        <div class="features" id="features" role="group" aria-label="Cat features"></div>
+      </div>
+
+      <p class="cat-score" id="cat-score" aria-live="polite"></p>
+      <div class="animals" id="animals"></div>
+
+      <button class="btn" id="cat-possible">Is 7 out of 7 even possible?</button>
+      <div id="cat-explain" class="callout" hidden>
+        <p><strong>No.</strong> Look at the walking cat, the fox and the husky. They tick exactly the same boxes, so any rule that says "cat" to one says "cat" to all three. And every feature you add to shut out the dogs also shuts out a real cat: the sleeping one, the hairless one, the one facing away.</p>
+        <p>The things that actually make a cat look like a cat (the shape of the face, the way it moves) are almost impossible to put into words, even though your brain recognises them instantly.</p>
+      </div>
+      <button class="btn primary continue" data-reveal="s5" id="cat-continue" hidden>And there's a bigger problem</button>
+    </div>
+  </section>
+
+  <!-- ============ PART 5: what the computer sees ============ -->
+  <section class="section" id="s5" hidden>
+    <div class="wrap">
+      <p class="eyebrow">Part 5 · Who ticks the boxes?</p>
+      <h2>The computer has never seen an ear</h2>
+      <p>In that last game we cheated. We <em>told</em> the computer which animals had pointy ears. In real life nobody does that. A camera doesn't hand the computer "whiskers: yes". It hands over this:</p>
+
+      <div class="pixel-stage card">
+        <div class="pixel-grid" id="pixel-grid" aria-label="A 16 by 16 picture of a cat's face made of numbers" role="img"></div>
+        <div class="pixel-controls">
+          <button class="btn primary" id="pixel-toggle" aria-pressed="false">Show what the computer sees</button>
+          <p class="pixel-caption" id="pixel-caption">A tiny 16 × 16 picture of a cat's face.</p>
+        </div>
+      </div>
+
+      <p>That's it. <strong>256 numbers.</strong> Small numbers are dark and big numbers are light. There's no "ear" in there, just numbers next to other numbers. Try writing a rule for "pointy ear" using only those numbers. And a real photo has millions of them.</p>
+
+      <div class="callout">
+        <p>So in the end, people gave up trying to write the rules. They asked a different question: <strong>what if the computer could find the rules itself, just by looking at lots of examples?</strong> That idea is called <strong>machine learning</strong>, and it's what the rest of this journey is about.</p>
+      </div>
+
+      <details class="deeper">
+        <summary>The age of "expert systems"<span class="tag-deeper">Go deeper</span></summary>
+        <div class="deeper-body">
+          <p>In the 1970s and 80s, much of AI research meant exactly what you just did: sitting down with human experts and turning their knowledge into long lists of IF… THEN… rules. These <em>expert systems</em> were used for jobs like suggesting treatments for blood infections or deciding how to put together big computer orders. One of them grew to thousands of rules.</p>
+          <p>They worked well in narrow areas, but they were expensive to keep up to date, and they failed in surprising ways whenever a situation came up that nobody had written a rule for. Sound familiar?</p>
+        </div>
+      </details>
+
+      <h2 class="summary-head">What you now know</h2>
+      <ol class="takeaways">
+        <li><span>Computers follow instructions perfectly, but only the instructions someone thought to write.</span></li>
+        <li><span>The real world is too messy for hand-written rules. Words change, animals curl up, and rules clash with each other.</span></li>
+        <li><span>To a computer, a picture (or a sound, or a word) is just numbers. Any intelligence has to be built out of those numbers.</span></li>
+      </ol>
+
+      <a class="next-stop" href="../../index.html">
+        <span><small>Next · Stop 2</small><strong>Everything is numbers</strong></span>
+        <span class="soon">Coming soon →</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">Learn AI · Stop 1 · Rules break</div>
+</footer>
+
+<script src="../../assets/js/site.js"></script>
+<script src="stop.js"></script>
+</body>
+</html>

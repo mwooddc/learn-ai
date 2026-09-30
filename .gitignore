@@ -1,0 +1,5 @@
+.claude/*
+!.claude/serve.js
+.vercel
+.DS_Store
+Thumbs.db

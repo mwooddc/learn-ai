@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learn AI · From the Ground Up</title>
+<meta name="description" content="Understand AI as if you built it yourself. Eleven interactive stops, from why rules break to how a chatbot really works.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+<style>
+  .journey { list-style: none; padding: 0; margin: 32px 0 0; position: relative; }
+  .journey::before {
+    content: ""; position: absolute; left: 21px; top: 22px; bottom: 22px;
+    width: 2px; background: var(--line);
+  }
+  .journey li { position: relative; padding-left: 64px; margin-bottom: 12px; }
+  .journey .dot {
+    position: absolute; left: 0; top: 14px; width: 44px; height: 44px; border-radius: 50%;
+    display: grid; place-items: center; background: var(--surface-2); border: 2px solid var(--line);
+    font-family: var(--font-mono); font-weight: 600; font-size: .9rem; color: var(--ink-3);
+  }
+  .journey .open .dot { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .journey .done .dot { background: var(--good); border-color: var(--good); color: var(--surface); }
+  .stop-card {
+    display: block; padding: 14px 18px; border-radius: var(--radius);
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink); text-decoration: none;
+  }
+  a.stop-card { box-shadow: var(--shadow); transition: transform .15s ease, border-color .15s ease; }
+  a.stop-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .stop-card h3 { margin: 0 0 2px; font-weight: 700; }
+  .stop-card p { margin: 0; color: var(--ink-2); font-size: .95rem; }
+  .stop-card .status { font-family: var(--font-mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); margin-top: 6px; }
+  .open .stop-card .status { color: var(--accent); }
+  .done .stop-card .status { color: var(--good); }
+  .soon .stop-card { background: transparent; border-style: dashed; }
+  .soon .stop-card h3 { color: var(--ink-2); }
+</style>
+</head>
+<body>
+
+<header class="site-bar">
+  <div class="wrap bar-inner">
+    <a href="index.html" class="brand">Learn AI <span>from the ground up</span></a>
+  </div>
+</header>
+
+<main>
+  <div class="hero wrap">
+    <p class="eyebrow">An interactive journey</p>
+    <h1>Understand AI as if you'd built it yourself.</h1>
+    <p class="lede">No magic and no jargon you haven't earned. Eleven short stops take you from "why can't we just program it?" all the way to how a chatbot actually works. At every stop, you do the building.</p>
+  </div>
+
+  <div class="wrap">
+    <ol class="journey" id="journey"></ol>
+  </div>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">Learn AI · Built for curious minds, starting from Year 7.</div>
+</footer>
+
+<script src="assets/js/site.js"></script>
+<script>
+  const STOPS = [
+    { id: "01-rules-break", title: "Rules break", blurb: "Why can't we just program a computer to be smart? Write the rules yourself and watch them fail." },
+    { title: "Everything is numbers", blurb: "Pictures, sounds and words, as a computer really sees them." },
+    { title: "A single neuron", blurb: "A decision is just a weighted vote. Build one." },
+    { title: "Learning from mistakes", blurb: "Watch a machine get better by nudging its numbers." },
+    { title: "Finding the bottom of the hill", blurb: "How do you get less wrong when you can only see your feet?" },
+    { title: "Teams of neurons", blurb: "What one neuron can't do, a network can." },
+    { title: "You are what you're trained on", blurb: "Data, bias, and machines that learn the wrong lesson." },
+    { title: "Words as places", blurb: "Giving meaning an address." },
+    { title: "Guess the next word", blurb: "Build a tiny language model from a single paragraph." },
+    { title: "Paying attention", blurb: "How context changes what a word means." },
+    { title: "Scale it up: the LLM", blurb: "Everything you've built, together, a billion times bigger." },
+  ];
+  document.getElementById("journey").innerHTML = STOPS.map((s, i) => {
+    const n = String(i + 1).padStart(2, "0");
+    if (!s.id) {
+      return `<li class="soon"><span class="dot">${n}</span><div class="stop-card"><h3>${s.title}</h3><p>${s.blurb}</p><div class="status">Coming soon</div></div></li>`;
+    }
+    const done = LearnAI.isComplete(s.id);
+    return `<li class="${done ? "done" : "open"}"><span class="dot">${done ? "✓" : n}</span>
+      <a class="stop-card" href="stops/${s.id}/index.html"><h3>${s.title}</h3><p>${s.blurb}</p>
+      <div class="status">${done ? "Completed · revisit" : "Start here →"}</div></a></li>`;
+  }).join("");
+</script>
+</body>
+</html>
