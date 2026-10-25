@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var t=localStorage.getItem("learnai.theme")||"slate";if(t!=="auto")document.documentElement.dataset.theme=t}catch(e){}</script>
+<title>Learning From Mistakes · Learn AI</title>
+<meta name="description" content="Stop 4 of Learn AI: a neuron that finds its own weights by nudging them after every mistake.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../assets/css/neuron.css">
+<link rel="stylesheet" href="stop.css">
+</head>
+<body>
+
+<header class="site-bar">
+  <div class="wrap bar-inner">
+    <a href="../../index.html" class="brand">Learn AI <span>from the ground up</span></a>
+    <span class="stop-count">Stop 4 / 11</span>
+  </div>
+  <div class="progress"><div class="progress-fill" id="progress"></div></div>
+</header>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <div class="hero wrap">
+    <p class="eyebrow">Stop 4 · Learning from mistakes</p>
+    <h1>Can a machine find its own weights?</h1>
+    <p class="lede">In Stop 3 you copied Sam's decisions by nudging weights until the neuron matched every afternoon. You did the learning. Now you'll turn what you did into a rule so simple that a computer can follow it, and watch the computer learn by itself.</p>
+    <div class="meta"><span>~15 minutes</span><span>Builds on Stop 3</span></div>
+  </div>
+
+  <!-- ============ PART 1: which way to nudge ============ -->
+  <section class="section" id="s1">
+    <div class="wrap">
+      <p class="eyebrow">Part 1 · Which way to nudge?</p>
+      <h2>Fix one mistake</h2>
+      <p>Here's a brand-new neuron for Sam. It knows nothing yet: every weight is 0 and the threshold is 1. So for every afternoon, the sum is 0, which is below 1, and it says <strong>STAY</strong>.</p>
+      <p>On this afternoon it was sunny and Sam <strong>went</strong> to the park. The neuron got it wrong. Use the <strong>+1</strong> and <strong>−1</strong> buttons to <strong>make one change that fixes it</strong>.</p>
+
+      <div class="card fix" id="fix-a">
+        <div class="fix-case" id="case-a-text"></div>
+        <div class="neuron-mini" id="n-a"></div>
+        <div class="nudge-pad" id="pad-a"></div>
+        <p class="fix-feedback" id="fb-a" aria-live="polite"></p>
+      </div>
+
+      <div id="case-b-wrap" hidden>
+        <p>Now the opposite mistake. A different neuron says <strong>GO</strong> on an afternoon when it was sunny but homework was due, and Sam <strong>stayed</strong> at home. Fix it with one change.</p>
+        <div class="card fix" id="fix-b">
+          <div class="fix-case" id="case-b-text"></div>
+          <div class="neuron-mini" id="n-b"></div>
+          <div class="nudge-pad" id="pad-b"></div>
+          <p class="fix-feedback" id="fb-b" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div class="callout" id="fix-lesson" hidden>
+        <p>You've just discovered the two things that matter when fixing a mistake:</p>
+        <p><strong>Which way?</strong> If the neuron was <em>too cautious</em> (said STAY but Sam went), the sum needs to go <strong>up</strong> or the threshold <strong>down</strong>. If it was <em>too eager</em> (said GO but Sam stayed), the opposite.</p>
+        <p><strong>Which weights?</strong> Only the inputs that were <strong>yes (1)</strong> that afternoon. A "no" input is × 0, so changing its weight can't change this answer.</p>
+      </div>
+      <button class="btn primary continue" data-reveal="s2" id="c1" hidden>Turn that into a rule</button>
+    </div>
+  </section>
+
+  <!-- ============ PART 2: the rule ============ -->
+  <section class="section" id="s2" hidden>
+    <div class="wrap">
+      <p class="eyebrow">Part 2 · The learning rule</p>
+      <h2>A recipe a computer can follow</h2>
+      <p>A computer can't "have a think" about what to change. It needs exact steps. Here they are, using what you just discovered. First, two words we'll use:</p>
+      <ul class="defs">
+        <li><strong>Example:</strong> one afternoon where we know what Sam actually did.</li>
+        <li><strong>Round:</strong> going through all the examples once.</li>
+      </ul>
+
+      <ol class="recipe card">
+        <li><strong>Show the neuron one example</strong> and let it make its decision.</li>
+        <li><strong>If it's right, change nothing.</strong> Move on to the next example.</li>
+        <li><strong>If it's wrong, nudge:</strong>
+          <table class="rule-table">
+            <thead><tr><th>The mistake</th><th>Weights of every <em>yes</em> input</th><th>Threshold</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Too cautious</strong><br><small>said STAY, Sam went</small></td><td class="pos"><strong>+1</strong> each</td><td class="neg"><strong>−1</strong> (easier to say GO)</td></tr>
+              <tr><td><strong>Too eager</strong><br><small>said GO, Sam stayed</small></td><td class="neg"><strong>−1</strong> each</td><td class="pos"><strong>+1</strong> (harder to say GO)</td></tr>
+            </tbody>
+          </table>
+        </li>
+        <li><strong>Repeat</strong> for every example, round after round, until a whole round has <strong>no mistakes</strong>.</li>
+      </ol>
+
+      <p>That's it. Notice that each nudge is small (just 1) and it only fixes things a little. The neuron gets better by making <strong>lots of small corrections</strong>, not one big jump.</p>
+
+      <details class="deeper">
+        <summary>Who invented this?<span class="tag-deeper">Go deeper</span></summary>
+        <div class="deeper-body">
+          <p>This is almost exactly the rule Frank Rosenblatt used for his <em>Perceptron</em> in 1958, the machine you met in Stop 3. It was one of the first times a machine learned from examples rather than being given its rules. Newspapers at the time got very excited, perhaps a little too excited, about "thinking machines".</p>
+        </div>
+      </details>
+
+      <button class="btn primary continue" data-reveal="s3">Be the machine</button>
+    </div>
+  </section>
+
+  <!-- ============ PART 3: be the machine ============ -->
+  <section class="section" id="s3" hidden>
+    <div class="wrap">
+      <p class="eyebrow">Part 3 · Be the machine</p>
+      <h2>Follow the recipe yourself</h2>
+      <p>Here are Sam's six afternoons. We start the neuron knowing nothing: all weights 0, threshold 1. For each afternoon, compare what the neuron said with what Sam did, then choose what the recipe says to do. The computer will make the nudge for you.</p>
+
+      <div class="card neuron-card" id="n-learn"></div>
+
+      <div class="card stepper" id="stepper">
+        <div class="step-head">
+          <p class="step-title" id="step-title"></p>
+          <p class="step-facts" id="step-facts"></p>
+          <div class="step-compare">
+            <div><span class="lbl">Neuron said</span><strong id="step-said"></strong></div>
+            <div><span class="lbl">Sam did</span><strong id="step-truth"></strong></div>
+          </div>
+        </div>
+        <div class="step-choices" id="step-choices">
+          <button class="btn" data-choice="right">Right: change nothing</button>
+          <button class="btn" data-choice="cautious">Too cautious: nudge up</button>
+          <button class="btn" data-choice="eager">Too eager: nudge down</button>
+        </div>
+        <p class="step-feedback" id="step-feedback" aria-live="polite"></p>
+      </div>
+
+      <div class="log" id="log" aria-live="polite"></div>
+
+      <div id="auto-wrap" hidden>
+        <div class="callout" id="round1-summary"></div>
+        <button class="btn primary" id="auto-run">Let the computer finish ▶</button>
+      </div>
+
+      <div class="card chart-card" id="chart-sam-card" hidden>
+        <p class="chart-title">Mistakes in each round</p>
+        <div class="chart" id="chart-sam"></div>
+        <p class="chart-note" id="sam-done" aria-live="polite"></p>
+      </div>
+
+      <button class="btn primary continue" data-reveal="s4" id="c3" hidden>Could it learn something harder?</button>
+    </div>
+  </section>
+
+  <!-- ============ PART 4: X vs O ============ -->
+  <section class="section" id="s4" hidden>
+    <div class="wrap">
+      <p class="eyebrow">Part 4 · Watch it learn to see</p>
+      <h2>Teach it X from O</h2>
+      <p>In Stop 3 you looked at a neuron with 25 inputs, one for each pixel of a 5 × 5 picture, and <em>we</em> chose its weights. This time, nobody chooses them. All 25 weights start at 0, and the neuron learns from these 16 examples using <strong>exactly the same recipe</strong>. Its job: say <strong>X</strong> (fire) for an X and <strong>O</strong> (don't fire) for an O.</p>
+
+      <div class="examples" id="xo-examples" aria-label="The 16 training examples"></div>
+
+      <div class="card xo-card">
+        <div class="xo-main">
+          <figure>
+            <div class="mini-grid" id="xo-current" aria-label="The example being learned"></div>
+            <figcaption id="xo-current-cap">Example</figcaption>
+          </figure>
+          <figure>
+            <div class="mini-grid heat" id="xo-weights" aria-label="The 25 weights"></div>
+            <figcaption>The 25 weights <span class="t-note">· threshold <strong id="xo-t">1</strong></span></figcaption>
+          </figure>
+        </div>
+        <p class="xo-status" id="xo-status" aria-live="polite">Press <strong>Step</strong> to show the neuron the first example.</p>
+        <div class="xo-controls">
+          <button class="btn primary" id="xo-step">Step</button>
+          <button class="btn" id="xo-play">Play ▶</button>
+          <button class="btn" id="xo-reset">Start again</button>
+        </div>
+        <div class="chart small" id="chart-xo"></div>
+      </div>
+
+      <p>Watch the weights: <strong class="pos">green</strong> means "ink here makes me think X", <strong class="neg">red</strong> means "ink here makes me think O". Nobody told the neuron what an X looks like. The pattern appears from the nudges alone.</p>
+
+      <div class="card test" id="xo-test-card" hidden>
+        <p class="test-title">Now test it. Draw anything and see what it thinks.</p>
+        <div class="test-row">
+          <div class="mini-grid input" id="xo-test" aria-label="Your drawing: click squares to draw"></div>
+          <div>
+            <p class="test-verdict" id="xo-test-verdict"></p>
+            <div class="test-presets">
+              <button class="chip" data-draw="x">A neat X</button>
+              <button class="chip" data-draw="wonky">A wonky X</button>
+              <button class="chip" data-draw="plus">A plus +</button>
+              <button class="chip" data-draw="clear">Clear</button>
+            </div>
+          </div>
+        </div>
+        <p class="small">It has never seen your drawing. It can only use the weights it learned from those 16 examples. Can you draw something that fools it?</p>
+      </div>
+
+      <button class="btn primary continue" data-reveal="s5" id="c4" hidden>Can it learn anything?</button>
+    </div>
+  </section>
+
+  <!-- ============ PART 5: limits ============ -->
+  <section class="section" id="s5" hidden>
+    <div class="wrap">
+      <p class="eyebrow">Part 5 · What this can't do</p>
+      <h2>Jordan's tricky rule</h2>
+      <p>Jordan goes to the park if it's sunny <strong>or</strong> friends are going, but <strong>not when both</strong> are true, because then the park is too crowded. Four examples, two inputs. Surely easy?</p>
+
+      <div class="card">
+        <div class="jordan-table" id="jordan-table"></div>
+        <button class="btn primary" id="jordan-run">Let it learn for 10 rounds ▶</button>
+        <div class="chart small" id="chart-jordan"></div>
+        <p class="chart-note" id="jordan-note" aria-live="polite"></p>
+      </div>
+
+      <details class="deeper">
+        <summary>Why can't any weights work?<span class="tag-deeper">Go deeper</span></summary>
+        <div class="deeper-body">
+          <p>"Sunny only" must reach the threshold, and so must "friends only". "Neither" (sum 0) must not, so the threshold must be bigger than 0. But then "both" adds the sunny weight and the friends weight together. That's at least the threshold plus the threshold, which is definitely enough to say GO. Yet Jordan stays. One neuron can never get all four right, however long it learns.</p>
+        </div>
+      </details>
+
+      <div class="callout">
+        <p>Two limits to remember. First, <strong>one neuron can't learn every pattern</strong>. Later, in Stop 6, you'll see how <em>teams</em> of neurons solve this.</p>
+        <p>Second, look at the recipe again. It only knows <strong>right or wrong</strong>. A near miss gets exactly the same nudge as a terrible miss. What if a machine could tell <strong>how wrong</strong> it was, and adjust by just the right amount? That's the next stop.</p>
+      </div>
+
+      <h2 class="summary-head">What you now know</h2>
+      <ol class="takeaways">
+        <li><span>Learning means <strong>adjusting weights after mistakes</strong>, a small nudge in the direction that would have helped.</span></li>
+        <li><span>Only the inputs that were <strong>yes</strong> get nudged, because only they affected the answer.</span></li>
+        <li><span>The same simple recipe works for 3 weights or 25, and in principle for millions.</span></li>
+        <li><span>The machine found weights <strong>nobody gave it</strong>, just from examples. That's machine learning.</span></li>
+        <li><span>But one neuron has limits, and "right or wrong" is a blunt way to learn.</span></li>
+      </ol>
+
+      <a class="next-stop" href="../../index.html">
+        <span><small>Next · Stop 5</small><strong>Finding the bottom of the hill</strong></span>
+        <span class="soon">Coming soon →</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">Learn AI · Stop 4 · Learning from mistakes</div>
+</footer>
+
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/neuron.js"></script>
+<script src="stop.js"></script>
+</body>
+</html>
